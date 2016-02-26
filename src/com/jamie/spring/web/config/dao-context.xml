@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.springframework.org/schema/beans">
+
+	<context:annotation-config />
+
+	<context:component-scan base-package="com.jamie.spring.web.dao" />
+
+
+	<beans profile="production">
+		<jee:jndi-lookup expected-type="javax.sql.DataSource"
+			jndi-name="jdbc/spring" id="dataSource">
+		</jee:jndi-lookup>
+
+		<bean id="transactionManager"
+			class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+			<property ref="dataSource" name="dataSource" />
+		</bean>
+		<tx:annotation-driven />
+
+		<bean id="sessionFactory"
+			class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+			<property ref="dataSource" name="dataSource" />
+			<property name="hibernateProperties">
+				<props>
+					<prop key="hibernate.hbm2ddl.auto">update</prop>
+					<prop key="javax.persistence.validation.group.pre-persist"> com.jamie.spring.web.dao.PersistenceValidationGroup
+					</prop>
+					<prop key="javax.persistence.validation.group.pre-update"> com.jamie.spring.web.dao.PersistenceValidationGroup
+					</prop>
+					<prop key="javax.persistence.validation.group.pre-remove">com.jamie.spring.web.dao.PersistenceValidationGroup
+					</prop>
+				</props>
+			</property>
+
+			<property name="packagesToScan">
+				<list>
+					<value>com.jamie.spring.web.dao</value>
+				</list>
+			</property>
+
+		</bean>
+		<bean id="exceptionTranslator"
+			class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor">
+		</bean>
+	</beans>
+
+</beans>

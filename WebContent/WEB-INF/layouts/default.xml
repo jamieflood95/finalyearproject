@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE tiles-definitions PUBLIC
+       "-//Apache Software Foundation//DTD Tiles Configuration 2.1//EN"
+       "http://tiles.apache.org/dtds/tiles-config_2_1.dtd">
+<tiles-definitions>
+	<definition name="users.base" template="/WEB-INF/templates/default.jsp">
+		<put-attribute name="includes" value=""></put-attribute>
+		<put-attribute name="title" value="Home"></put-attribute>
+		<put-attribute name="header" value="/WEB-INF/tiles/header.jsp"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/content.jsp"></put-attribute>
+		<put-attribute name="footer" value="/WEB-INF/tiles/footer.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="home" extends="users.base">
+		<put-attribute name="title" value="Home"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/home.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="users" extends="users.base">
+		<put-attribute name="title" value="Current users"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/users.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="login" extends="users.base">
+		<put-attribute name="title" value="Login"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/login.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="newaccount" extends="users.base">
+		<put-attribute name="includes" value="/WEB-INF/tiles/newaccountscript.jsp"></put-attribute>
+		<put-attribute name="title" value="Register"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/newaccount.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="accountcreated" extends="users.base">
+		<put-attribute name="title" value="Account Created"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/accountcreated.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="admin" extends="users.base">
+		<put-attribute name="title" value="Administrator"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/admin.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="houses" extends="users.base">
+		<put-attribute name="title" value="Houses"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/houses.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="map" extends="users.base">
+		<put-attribute name="title" value="Map"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/map.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="denied" extends="users.base">
+		<put-attribute name="title" value="Access Denied"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/denied.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="error" extends="users.base">
+		<put-attribute name="title" value="Error"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/error.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="loggedout" extends="users.base">
+		<put-attribute name="title" value="Logged Out"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/loggedout.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="createhouse" extends="users.base">
+		<put-attribute name="title" value="Create House"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/createhouse.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="housecreated" extends="users.base">
+		<put-attribute name="title" value="House Created"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/housecreated.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="housedeleted" extends="users.base">
+		<put-attribute name="title" value="House Deleted"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/housedeleted.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="house" extends="users.base">
+		<put-attribute name="title" value="House"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/house.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="user" extends="users.base">
+		<put-attribute name="title" value="User"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/user.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="search" extends="users.base">
+		<put-attribute name="title" value="Search"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/search.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="housenotfound" extends="users.base">
+		<put-attribute name="title" value="Error Creating House"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/housenotfound.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="userdeleted" extends="users.base">
+		<put-attribute name="title" value="User Deleted"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/userdeleted.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="roomieadded" extends="users.base">
+		<put-attribute name="title" value="Roomie Added"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/roomieadded.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="cannotadd" extends="users.base">
+		<put-attribute name="title" value="Cannot add roomie"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/cannotadd.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="searcherror" extends="users.base">
+		<put-attribute name="title" value="Search error"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/searcherror.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="newmessage" extends="users.base">
+		<put-attribute name="title" value="New Message"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/newmessage.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="messagesent" extends="users.base">
+		<put-attribute name="title" value="Message sent"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/messagesent.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="messages" extends="users.base">
+		<put-attribute name="title" value="Messages"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/messages.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="message" extends="users.base">
+		<put-attribute name="title" value="Message"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/message.jsp"></put-attribute>
+	</definition>
+</tiles-definitions>

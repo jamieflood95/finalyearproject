@@ -1,0 +1,162 @@
+@charset "utf-8";
+/****************************************
+*This styles.css document was hand coded*
+*  by Jamie Flood. Please do not change *
+*  anything in this document without    *
+*   notifying me or else leaving a      *
+*     comment wherever you edit.        *
+****************************************/
+
+body {font-family:'Raleway',sans-serif;color:black;margin:0 auto;background-color:white;}
+
+input[type=text], input[type=password] {width: 250px;}
+
+textarea {width: 250px;	height: 400px;}
+
+.label {text-align: right;vertical-align: top;color:black;}
+
+#logo {font-size:20px;}
+
+.control {margin-left: 10px;}
+
+.error {font-size: small;color: red;margin-left: 10px;}
+
+.valid {font-size: small;color: green;margin-left: 10px;}
+
+#house td, .users td{padding: 8px; padding-right: 50px;}
+
+.loginerror {color: red;font-size: medium;}
+
+img {width:100%;border:2px solid white;}
+
+#googleimage {height:300px;width:400px;}
+
+#table-image {height:80px;width:120px;}
+
+.jumbotron {color:black;}
+
+.footer{margin:0px auto;text-align:right;width:95%;}
+
+#infowindow {width:250px;}
+
+.footer {font-size:12px;}
+
+.navbar-brand { position: relative; z-index: 2; }
+
+.navbar-nav.navbar-right .btn { position: relative; z-index: 2; padding: 4px 20px; margin: 10px auto; }
+
+.navbar .navbar-collapse { position: relative; }
+.navbar .navbar-collapse .navbar-right > li:last-child { padding-left: 22px; }
+
+.navbar .nav-collapse { position: absolute; z-index: 1; top: 0; left: 0; right: 0; bottom: 0; margin: 0; padding-right: 120px; padding-left: 80px; width: 100%; }
+.navbar.navbar-default .nav-collapse { background-color: #2F72FF; }
+.navbar.navbar-inverse .nav-collapse { background-color: #2F72FF; }
+.navbar .nav-collapse .navbar-form { border-width: 0; box-shadow: none; }
+.nav-collapse>li { float: right; }
+
+.btn.btn-circle { border-radius: 50px; }
+.btn.btn-outline { background-color: transparent; }
+
+@media screen and (max-width: 767px) {
+    .navbar .navbar-collapse .navbar-right > li:last-child { padding-left: 15px; padding-right: 15px; } 
+    
+    .navbar .nav-collapse { margin: 7.5px auto; padding: 0; }
+    .navbar .nav-collapse .navbar-form { margin: 0; }
+    .nav-collapse>li { float: none; }
+}
+
+.Area {margin:0 auto;width:70%;display:table;padding:5px;border-radius:5px;margin-bottom:15px;}
+
+.text {color: white;line-height: 30px;width:100%;padding:10px;}
+
+.L {float:right;background-color:#0084FF;}
+
+.R {float:left;background-color:#F1F0F0;}
+
+.Area .R {color:#494949;}
+
+.btn.save {border-radius:0;}
+
+.btn.sharp {border-radius:0;background-color:red;}
+
+.chat-form, .message-title {margin: 0 auto;width:70%;}
+
+.message-username a {text-decoration:none;}
+
+.list-group-item.active, .list-group-item.active:focus, .list-group-item.active:hover {z-index: 2;color: #fff;background-color: #2F72FF;border-color: #2F72FF;}
+
+.link{color:black;text-decoration: none;background-color: none;}
+
+.house-object-info {
+    float: left;
+    margin-bottom: 15px;
+    padding: 14px 20px 18px 20px;
+    width: 60%;
+    overflow-x: hidden;
+}
+
+.house-object-info .house-object-header {
+    border-bottom: 1px solid black;
+    line-height: 23px;
+    margin-bottom: 13px;
+    padding-bottom: 14px;
+    overflow: auto;
+}
+
+#house-summary-items {
+    float: left;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 19px;
+    margin-top: 5px;
+    width: 90%;
+}
+
+#house-content {
+    float: left;
+    width: 60%;
+    padding-bottom: 20px;
+}
+
+.house-user-info {
+    float: right;
+    margin-bottom: 15px;
+    padding: 14px 20px 18px 20px;
+    width: 30%;
+    overflow-x: hidden;
+}
+
+.house-user-info .house-user-header {
+    border-bottom: 1px solid black;
+    line-height: 23px;
+    margin-bottom: 13px;
+    padding-bottom: 14px;
+    overflow: auto;
+}
+
+.navbar-inverse {
+    background-color: #2F72FF;
+    border-color: #2F72FF;
+}
+
+.navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
+    color: #fff;
+    background-color: #2F72FF;
+}
+
+.navbar-inverse .navbar-brand {
+    color: white;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: white;
+}
+
+.navbar-inverse .navbar-toggle {
+    border-color: white;
+}
+
+.conversations {width:60%;float:left;border-bottom: 1px solid black;
+    margin-bottom: 13px;
+    padding-bottom: 14px;
+    overflow: auto;}

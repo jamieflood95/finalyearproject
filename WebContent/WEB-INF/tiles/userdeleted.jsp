@@ -1,0 +1,1 @@
+<div class="container">User deleted.</div>
