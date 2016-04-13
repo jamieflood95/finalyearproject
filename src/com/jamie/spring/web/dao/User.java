@@ -65,8 +65,8 @@ public class User {
 	private boolean enabled = false;
 	private String authority;
 	
-	@ManyToOne(cascade = {CascadeType.ALL})
-	@JoinColumn(name = "id")
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "id", referencedColumnName = "id")
 	private House house;
 
 	public User() {

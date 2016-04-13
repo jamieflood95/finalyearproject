@@ -15,6 +15,32 @@
 			<div id="house-price">&euro;${house.rent}</div>
 			<span class="header-text">${house.rooms} Room(s)</span>
 		</div>
+
+		<c:choose>
+			<c:when test="${hasHouse}">
+				<img width="500px" height="500px"
+					src="${pageContext.request.contextPath}/static/images/housepictures/<c:url value="${house.id}"/>.png">
+
+			</c:when>
+			<c:otherwise>
+				<img src="https://maps.googleapis.com/maps/api/streetview?size=800x500&location=<c:url value="${house.lat}"/>,<c:url value="${house.lng}"/>">
+				<br> *Images taken from Google Street View may not be 100% accurate.
+				<br>
+
+
+			</c:otherwise>
+		</c:choose>
+
+		<sec:authorize access="isAuthenticated()">
+			<sec:authentication var="principal" property="principal" />
+			<c:choose>
+				<c:when test="${principal.username==house.username}">
+					<a class="btn btn-primary btn-lg"
+						href="${pageContext.request.contextPath}/showhouseupload">Upload
+						new picture</a>
+				</c:when>
+			</c:choose>
+		</sec:authorize>
 	</div>
 	<div class="house-user-info" id="address_box">
 		<div class="house-user-header">
@@ -79,12 +105,7 @@
 			</sec:authorize>
 		</div>
 	</div>
-	<div id="house-content">
-		<img
-			src="https://maps.googleapis.com/maps/api/streetview?size=800x500&location=<c:url value="${house.lat}"/>,<c:url value="${house.lng}"/>">
-		<br> *Images taken from Google Street View may not be 100%
-		accurate.
-	</div>
+	<div id="house-content"></div>
 
 	<div class="house-object-info" id="address_box">
 		<div class="house-object-header">
@@ -94,5 +115,61 @@
 			<span class="header-text">${house.description}</span>
 		</div>
 	</div>
-</div>
 
+	<div class="house-object-info" id="address_box">
+		<div class="house-object-header">
+			<h1>Comments</h1>
+		</div>
+		<div id="house-summary-items">
+
+			<div class="comments-list">
+				<c:forEach var="comments" items="${comments}">
+
+					<div class="comment comment-post bogr1 cleared no-replies">
+						<div class="avatar">
+							<img
+								src="${pageContext.request.contextPath}/static/images/profilepictures/<c:url value="${comments.username}"/>.png"
+								style="width: 55px; clip: rect(0px, 55px, 55px, 0px);"
+								onerror="this.style.display='none';">
+						</div>
+						<div class="container">
+							<p class="user-info">
+								<a href="<c:url value="/house/${houses.id}"/>">${comments.username}</a>,
+								${comments.date}
+							</p>
+							<p class="comment-body comment-text">${comments.text}</p>
+						</div>
+					</div>
+				</c:forEach>
+			</div>
+
+			<br>
+			<br>
+
+			<div class="form-group">
+				<sf:form id="details" method="post"
+					action="${pageContext.request.contextPath}/createcomment/${house.id}"
+					commandName="comment">
+					<table>
+
+
+
+						<tr>
+							<td><sf:textarea rows="8" class="form-control" path="text"
+									name="text" type="text" placeholder="Add a comment..." /><br />
+								<div class="error">
+									<sf:errors path="text"></sf:errors>
+								</div></td>
+						</tr>
+
+
+						<tr>
+							<td><input class="btn btn-default" id="control"
+								value="Add comment" type="submit" /></td>
+						</tr>
+					</table>
+				</sf:form>
+			</div>
+		</div>
+	</div>
+</div>

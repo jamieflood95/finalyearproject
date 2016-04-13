@@ -47,6 +47,10 @@
 		<bean id="exceptionTranslator"
 			class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor">
 		</bean>
+
+		<bean id="multipartResolver"
+			class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		</bean>
 	</beans>
 
 </beans>

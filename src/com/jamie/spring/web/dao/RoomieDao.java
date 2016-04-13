@@ -32,11 +32,11 @@ public class RoomieDao {
 
 	@SuppressWarnings("unchecked")
 	public List<Roomie> getRoomies(String username) {
-		String jpql = "from Roomie where username = :username";
-		Query query = session().createQuery(jpql);
-		query.setParameter("username", username);
+		Criteria crit = session().createCriteria(Roomie.class);
+		crit.createAlias("user", "u");
+		crit.add(Restrictions.eq("u.username", username));
 
-		return query.list();
+		return crit.list();
 	}
 
 	public Boolean exists(String roomie_username, String username) {

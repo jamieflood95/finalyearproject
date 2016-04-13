@@ -54,6 +54,11 @@ public class HouseDao {
 
 		session().saveOrUpdate(house);
 	}
+	
+	public void update(House house) throws IOException {
+
+		session().update(house);
+	}
 
 	public boolean delete(int id) {
 		Query query = session().createQuery("delete from House where id=:id");
@@ -106,7 +111,7 @@ public class HouseDao {
 	public List<House> getRecent() {
 		
 		Query query = session().createQuery("from House order by id DESC");
-		query.setMaxResults(10);
+		query.setMaxResults(9);
 
 		return query.list();
 	}

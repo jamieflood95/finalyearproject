@@ -45,4 +45,10 @@ public class UsersService {
 	public void delete(String username) {
 		usersDAO.delete(username);
 	}
+	
+	public List<User> getUserSearch(String username) {
+		List<User> user = usersDAO.getUserSearch(username);
+
+		return user;
+	}
 }

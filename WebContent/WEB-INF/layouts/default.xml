@@ -141,4 +141,79 @@
 		<put-attribute name="title" value="Message"></put-attribute>
 		<put-attribute name="content" value="/WEB-INF/tiles/message.jsp"></put-attribute>
 	</definition>
+	
+	<definition name="roomies" extends="users.base">
+		<put-attribute name="title" value="Roomies"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/roomies.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="contacts" extends="users.base">
+		<put-attribute name="title" value="Contacts"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/contacts.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="newcontact" extends="users.base">
+		<put-attribute name="title" value="New Contact"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/newcontact.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="contactcreated" extends="users.base">
+		<put-attribute name="title" value="Contact Created"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/contactcreated.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="contact" extends="users.base">
+		<put-attribute name="title" value="Contact"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/contact.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="tasks" extends="users.base">
+		<put-attribute name="title" value="Tasks"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/tasks.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="newtask" extends="users.base">
+		<put-attribute name="title" value="New Task"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/newtask.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="taskcreated" extends="users.base">
+		<put-attribute name="title" value="Task Created"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/taskcreated.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="task" extends="users.base">
+		<put-attribute name="title" value="Task"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/task.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="myroomies" extends="users.base">
+		<put-attribute name="title" value="My Roomies"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/myroomies.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="upload" extends="users.base">
+		<put-attribute name="title" value="Upload"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/upload.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="houseupload" extends="users.base">
+		<put-attribute name="title" value="Upload"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/houseupload.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="noroomsavailable" extends="users.base">
+		<put-attribute name="title" value="No rooms available"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/noroomsavailable.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="searchroomie" extends="users.base">
+		<put-attribute name="title" value="Search results"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/searchroomie.jsp"></put-attribute>
+	</definition>
+	
+	<definition name="example" extends="users.base">
+		<put-attribute name="title" value="Search results"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/example.jsp"></put-attribute>
+	</definition>
 </tiles-definitions>

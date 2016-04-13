@@ -18,19 +18,43 @@
 
 	<security:http use-expressions="true">
 		<security:logout logout-success-url="/loggedout" />
+		<security:form-login login-page="/login"
+			authentication-failure-url="/login?error=true" />
+		<security:access-denied-handler error-page="/denied" />
+		<security:remember-me key="offersAppKey" user-service-ref="jdbcUserService" />
+		<security:csrf disabled="true" />
 		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/" access="permitAll" />
 		<security:intercept-url pattern="/addRoomie" access="permitAll" />	
+		<security:intercept-url pattern="/example" access="permitAll" />	
+		<security:intercept-url pattern="/contactcreated" access="isAuthenticated()" />
+		<security:intercept-url pattern="/noroomsavailable" access="isAuthenticated()" />		
+		<security:intercept-url pattern="/newcontact" access="isAuthenticated()" />		
+		<security:intercept-url pattern="/createcontact" access="isAuthenticated()" />
+		<security:intercept-url pattern="/createcomment/*" access="isAuthenticated()" />
 		<security:intercept-url pattern="/deleteRoomie/*" access="permitAll" />	
 		<security:intercept-url pattern="/roomieadded" access="permitAll" />
+		<security:intercept-url pattern="/showhouseupload" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/houseupload" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/showupload" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/upload" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/newmessage" access="isAuthenticated()" />		
 		<security:intercept-url pattern="/sendmessage" access="isAuthenticated()" />
 		<security:intercept-url pattern="/sendmessage/*" access="isAuthenticated()" />
 		<security:intercept-url pattern="/messagesent" access="isAuthenticated()" />
-		<security:intercept-url pattern="/messages" access="isAuthenticated()" />			
+		<security:intercept-url pattern="/messages" access="isAuthenticated()" />
+		<security:intercept-url pattern="/contacts" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/contacts/*" access="isAuthenticated()" />
+		<security:intercept-url pattern="/newtask" access="isAuthenticated()" />		
+		<security:intercept-url pattern="/createtask" access="isAuthenticated()" />
+		<security:intercept-url pattern="/tasks" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/tasks/*" access="isAuthenticated()" />
 		<security:intercept-url pattern="/housenotfound" access="permitAll" />	
+		<security:intercept-url pattern="/roomies" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/roomies/all" access="isAuthenticated()" />
 		<security:intercept-url pattern="/search" access="permitAll" />	
 		<security:intercept-url pattern="/searchrent" access="permitAll" />	
+		<security:intercept-url pattern="/searchroomie" access="isAuthenticated()" />
 		<security:intercept-url pattern="/searcherror" access="permitAll" />	
 		<security:intercept-url pattern="/user/*" access="permitAll" />	
 		<security:intercept-url pattern="/message/*" access="isAuthenticated()" />	
@@ -51,11 +75,6 @@
 		<security:intercept-url pattern="/houses" access="permitAll" />
 		<security:intercept-url pattern="/map" access="permitAll" />
 		<security:intercept-url pattern="/**" access="denyAll" />
-		<security:form-login login-page="/login"
-			authentication-failure-url="/login?error=true" />
-		<security:access-denied-handler error-page="/denied" />
-		<security:remember-me key="offersAppKey" user-service-ref="jdbcUserService" />
-		<security:csrf disabled="true" />
 	</security:http>
 	<security:global-method-security secured-annotations="enabled"></security:global-method-security>
 	<bean id="passwordEncoder"

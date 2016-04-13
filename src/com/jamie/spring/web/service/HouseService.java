@@ -37,8 +37,6 @@ public class HouseService {
 
 		List<House> houses = houseDAO.getHouses(name);
 		
-		System.out.println(houses.toString());
-
 		if (houses.size() == 0) {
 			return false;
 		}
@@ -63,6 +61,10 @@ public class HouseService {
 
 	public void saveOrUpdate(House house) throws IOException {
 		houseDAO.saveOrUpdate(house);
+	}
+	
+	public void update(House house) throws IOException {
+		houseDAO.update(house);
 
 	}
 

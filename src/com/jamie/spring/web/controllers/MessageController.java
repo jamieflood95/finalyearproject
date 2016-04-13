@@ -2,14 +2,11 @@ package com.jamie.spring.web.controllers;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +22,63 @@ import com.jamie.spring.web.dao.FormValidationGroup;
 import com.jamie.spring.web.dao.Message;
 import com.jamie.spring.web.service.MessageService;
 import com.jamie.spring.web.service.UsersService;
-
+/**
+ * 
+ * @author Jamie
+ *         <p>
+ *         This class is a controller for any tasks that take place for messages.
+ *         These tasks include: sending a message, viewing all messages and viewing
+ *         a specific conversation.
+ *         <p>
+ *         The @Controller annotation indicates that a particular class serves
+ *         the role of a controller. A controller generates an output view.
+ *         <p>
+ *         An instance of the MessageService and UserService classes are declared 
+ *         and instantiated so that data can be received from the DAO's. 
+ *         The @Autowired annotation is used which marks a method as to be autowired 
+ *         by Spring's dependency injection facilities. These methods are autowired with 
+ *         a matching bean in the Spring container.
+ *         <p>
+ * 		   @RequestMapping is annotation for mapping web requests onto specific handler
+ *                 methods. These methods return a string which represents a
+ *                 view.
+ *                 <p>
+ *                 The newMessage method's main responsibility is to display
+ *                 the form for users to create a new message. This method
+ *                 takes a model as a parameter which allows for adding
+ *                 attributes to the model. A new message object is created
+ *                 and added to the model. The form page is then returned.
+ *                 <p>
+ *                 The sendMessage method's main responsibility is to actually
+ *                 send the message. This method takes a model as a parameter
+ *                 which allows for adding attributes to the model.
+ *                 The @Validated annotation is used which supports the
+ *                 specification of validation groups. A message object 
+ *                 is sent from the form. The logged in username and current date
+ *                 are then applied to this object. The userService checks if the
+ *                 user actually exists before sending. It also makes sure that
+ *                 the user isn't trying to send it to themselves. If all these
+ *                 tests pass then the messageService use the saveOrUpdate method
+ *                 to persist the data.
+ *                 <p>
+ *                 The messages method's main responsibility is to display all
+ *                 messages for a user. This method takes a model as a
+ *                 parameter which allows for adding attributes to the model. A
+ *                 list of all messages sent and received are retrieved from the
+ *                 messageService. These lists are then sorted and the usernames
+ *                 are added into two new arraylists. These two arraylists are then
+ *                 added into one main arraylist which is then converted to a 
+ *                 HashSet so each value will be unique. This HashSet is then added
+ *                 to the model. The messages view is then displayed.
+ *                 <p>
+ *                 The showConversation method's main responsibility is to view a
+ *                 conversation between two users. This method takes a model as a 
+ *                 parameter which allows for adding attributes to the model. It also
+ *                 takes the users username as a parameter and uses the messageService
+ *                 to retrieve both messages sent and received between the two users.
+ *                 These are then sorted and added to the model. A messages object is 
+ *                 also created so that the users can chat in the conversation page.
+ */
 @Controller
 public class MessageController {
 
@@ -59,7 +112,7 @@ public class MessageController {
 		String username = principal.getName();
 		message.getUser().setUsername(username);
 
-		DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
+		//DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
 		Date send_date = new Date();
 		message.setSend_date(send_date);
 
@@ -74,7 +127,7 @@ public class MessageController {
 			return "newmessage";
 		} else {
 			messageService.saveOrUpdate(message);
-			return "messagesent";
+			return "redirect:" + "message/" + message.getRecipient();
 		}
 
 	}
@@ -89,13 +142,13 @@ public class MessageController {
 
 		final ArrayList<String> mylist = new ArrayList<String>();
 		final ArrayList<String> mysent = new ArrayList<String>();
-		
+
 		Collections.sort(messagesreceived, new Comparator<Message>() {
 			public int compare(Message m1, Message m2) {
 				return m2.getSend_date().compareTo(m1.getSend_date());
 			}
 		});
-		
+
 		Collections.sort(messagessent, new Comparator<Message>() {
 			public int compare(Message m1, Message m2) {
 				return m2.getSend_date().compareTo(m1.getSend_date());
@@ -105,17 +158,17 @@ public class MessageController {
 		for (int i = 0; i < messagesreceived.size(); i++) {
 			mylist.add(messagesreceived.get(i).getUsername());
 		}
-		
+
 		for (int i = 0; i < messagessent.size(); i++) {
 			mysent.add(messagessent.get(i).getRecipient());
 		}
-		
+
 		final ArrayList<String> main = new ArrayList<String>();
 		main.addAll(mylist);
 		main.addAll(mysent);
-		
+
 		Set<String> foo = new HashSet<String>(main);
-		
+
 		model.addAttribute("foo", foo);
 
 		return "messages";
@@ -123,7 +176,7 @@ public class MessageController {
 	}
 
 	@RequestMapping("/message/{username}")
-	public String showUser(@PathVariable String username, Model model, Principal principal) throws IOException {
+	public String showConversation(@PathVariable String username, Model model, Principal principal) throws IOException {
 
 		String myusername = principal.getName();
 

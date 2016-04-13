@@ -7,20 +7,27 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<script>
-$(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip(); 
-});
-</script>
-
 <div class="container">
+<sec:authentication var="principal" property="principal" />
+${principal.username }
+			
+
+
 	<c:set var="string2" value="${fn:toUpperCase(user.username)}" />
 	<h3>${string2}</h3>
+	<c:choose>
+		<c:when test="${hasImage}">
+			<img width="200px" height="200px"
+				src="${pageContext.request.contextPath}/static/images/profilepictures/<c:url value="${user.username}"/>.png">
+		</c:when>
+	</c:choose>
 	<sec:authorize access="isAuthenticated()">
 		<sec:authentication var="principal" property="principal" />
 		<c:choose>
 			<c:when test="${principal.username==user.username}">
-				<br>
+				<a class="btn btn-primary btn-lg"
+					href="${pageContext.request.contextPath}/showupload">Upload new
+					profile picture</a>
 			</c:when>
 			<c:when test="${isFriends}">
 				<br>This user is your roomie!<br>
@@ -32,7 +39,7 @@ $(document).ready(function(){
 					commandName="roomie">
 					<sf:input type="hidden" name="roomie_username"
 						path="roomie_username" />
-					<input class="btn btn-default" class="control" value="Add roomie (this will delete your house)"
+					<input class="btn btn-default" class="control" value="Add roomie"
 						type="submit" />
 				</sf:form>
 			</c:otherwise>
@@ -72,12 +79,12 @@ $(document).ready(function(){
 								<table>
 
 									<tr>
-										<td><a href="<c:url value="/user/${house.username}"/>">${house.username}</a></td>
+										<td><a href="<c:url value="/user/${user.username}"/>">${user.username}</a></td>
 									</tr>
 
 									<tr>
 										<td><sf:input class="form-control" path="recipient"
-												name="recipient" type="hidden" placeholder="Recipient" /><br />
+												name="recipient" type="hidden" /><br />
 											<div class="error">
 												<sf:errors path="recipient"></sf:errors>
 											</div></td>
@@ -122,28 +129,35 @@ $(document).ready(function(){
 		<div class="house-object-header">
 			<h1>My House</h1>
 		</div>
+
 		<div id="house-summary-items">
-			<img
-				src="https://maps.googleapis.com/maps/api/streetview?size=800x500&location=<c:url value="${house.lat}"/>,<c:url value="${house.lng}"/>">
-			<br> *Images taken from Google Street View may not be 100%
-			accurate. <br> <br> <a
-				href="<c:url value="/house/${house.id}"/>">${house.address}</a><br>
-			<br>${house.description}
-		</div>
-	</div>
-	
-	<div class="house-object-info" id="address_box">
-		<div class="house-object-header">
-			<h1>Roomies</h1>
-		</div>
-		<div id="house-summary-items">
-			<c:forEach var="roomies" items="${roomies}">
-				<a href="<c:url value="/user/${roomies.roomie_username}"/>">${roomies.roomie_username}</a>
-				<form
-						action="${pageContext.request.contextPath}/deleteroomie/${roomies.roomie_username}">
-						<input type="submit" value="Remove roomie" class="btn btn-default">
-					</form> <br />
-		</c:forEach>
+			<c:choose>
+				<c:when test="${hasImage}">
+					<img width="500px" height="500px"
+						src="${pageContext.request.contextPath}/static/images/housepictures/<c:url value="${house.id}"/>.png">
+					<br>
+					<a href="<c:url value="/house/${house.id}"/>">${house.address}</a>
+					<br>
+					<br>Rooms available: ${house.rooms} <br>
+					<br>Rent per
+				month: ${house.rent} <br>${house.description}
+				</c:when>
+
+				<c:when test="${hasHouse}">
+					<img
+						src="https://maps.googleapis.com/maps/api/streetview?size=800x500&location=<c:url value="${house.lat}"/>,<c:url value="${house.lng}"/>">
+					<br> *Images taken from Google Street View may not be 100%
+				accurate. <br>
+					<br>
+					<a href="<c:url value="/house/${house.id}"/>">${house.address}</a>
+					<br>
+					<br>Rooms available: ${house.rooms} <br>
+					<br>Rent per
+				month: ${house.rent} <br>${house.description}
+				</c:when>
+				<c:otherwise>
+					<br>No house available</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 </div>

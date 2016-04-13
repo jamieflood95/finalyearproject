@@ -30,10 +30,10 @@
 			</sec:authorize>
 
 			<sec:authorize access="isAuthenticated()">
-				<div style="background-color: #2F72FF  !important;" class="jumbotron">
-					<h2>Search for accommodation</h2>
+				<div style="background-color: #2F72FF !important;" class="jumbotron">
+					<!--  <h2>Search for accommodation</h2>
 					<p>
-						<form method="get"
+					<form method="get"
 						action="${pageContext.request.contextPath}/search"
 						commandName="house" role="search">
 						<select class="form-control" id="txt" name="searchString">
@@ -73,11 +73,43 @@
 						<button type="submit" class="btn btn-danger">
 							<span class="glyphicon glyphicon-search"></span>
 						</button>
-						</form>
-
-					
-					
-				
+					</form>
+						-->
+					<h2>Search for a house</h2>
+					<form method="get"
+						action="${pageContext.request.contextPath}/searchrent"
+						commandName="house" role="search">
+						<div class="form-group">
+							<table>
+								<tr>
+									<td><input type="text" class="form-control"
+										placeholder="Town, county, etc." id="txt" name="searchAddress"></td>
+								</tr>
+								<tr>
+									<td><input type="text" class="form-control"
+										placeholder="Min Rent" id="txt" name="searchMinRent">
+									</td>
+								</tr>
+								<tr>
+									<td><input type="text" class="form-control"
+										placeholder="Max Rent" id="txt" name="searchMaxRent"></td>
+								</tr>
+								<tr>
+									<td><input type="text" class="form-control"
+										placeholder="Min Rooms" id="txt" name="searchMinRooms"></td>
+								</tr>
+								<tr>
+									<td><input type="text" class="form-control"
+										placeholder="Max Rooms" id="txt" name="searchMaxRooms"></td>
+								</tr>
+								<tr>
+									<td class="label"></td>
+									<td><input class="btn btn-primary btn-lg sharp"
+										class="control" value="Search" type="submit" /></td>
+								</tr>
+							</table>
+						</div>
+					</form>
 				</div>
 			</sec:authorize>
 
@@ -86,11 +118,12 @@
 				<c:forEach var="houses" items="${houses}">
 					<div class="col-xs-6 col-lg-4">
 						<a href="<c:url value="/house/${houses.id}"/>"> <img
+							class="images"
 							src="https://maps.googleapis.com/maps/api/streetview?size=800x500&location=<c:url value="${houses.lat}"/>,<c:url value="${houses.lng}"/>">
-						</a> <br>
-						 <a href="<c:url value="/house/${houses.id}"/>"><div class="link">${houses.address}</div></a>
-						<br>&euro;
+						</a> <br> <a href="<c:url value="/house/${houses.id}"/>"><div
+								class="link">${houses.address}</div></a> <br>&euro;
 						<c:out value="${houses.rent}"></c:out>
+
 					</div>
 				</c:forEach>
 			</div>
@@ -98,7 +131,7 @@
 
 		</div>
 
-		
+
 		<div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
 			<div class="list-group">
 				<a class="list-group-item active">Recent Houses</a>

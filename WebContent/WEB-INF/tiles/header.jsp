@@ -18,7 +18,13 @@
 
 		<div class="collapse navbar-collapse" id="navbar-collapse-3">
 			<ul class="nav navbar-nav navbar-right">
+
+
+				<!--  HOME BUTTON -->
 				<li><a href="${pageContext.request.contextPath}/">Home</a></li>
+
+
+				<!--  HOUSE INFORMATION -->
 				<li class="dropdown"><a class="dropdown-toggle"
 					data-toggle="dropdown" href="#">House<span class="caret"></span></a>
 					<ul class="dropdown-menu">
@@ -27,40 +33,61 @@
 								<a href="${pageContext.request.contextPath}/createhouse">Create/Edit
 									House</a>
 							</sec:authorize></li>
+						<li><a href="${pageContext.request.contextPath}/map">Map</a></li>
 
 					</ul></li>
-				<li><a href="${pageContext.request.contextPath}/map">Map</a></li>
-				<li class="dropdown"><a class="dropdown-toggle"
-					data-toggle="dropdown" href="#">Profile<span class="caret"></span></a>
-					<ul class="dropdown-menu">
-						<li class="username"><sec:authorize
-								access="isAuthenticated()">
-								<sec:authentication var="principal" property="principal" />
-								<a href="<c:url value="/user/${principal.username}"/>">My
-									profile</a>
-							</sec:authorize></li>
-						<li><sec:authorize access="hasRole('ROLE_ADMIN')">
-								<a href="${pageContext.request.contextPath}/admin">Admin</a>
-							</sec:authorize></li>
-						<li><sec:authorize access="!isAuthenticated()">
-								<a class="login" data-toggle="collapse" href="#nav-collapse2">Login</a>
-							</sec:authorize></li>
-						<li><sec:authorize access="!isAuthenticated()">
-								<a class="login" href="<c:url value="/newaccount"/>">Register</a>
-							</sec:authorize></li>
-						<li><sec:authorize access="isAuthenticated()">
-								<c:url var="logoutUrl" value="/logout" />
-								<a href="${logoutUrl}">Log out</a>
-							</sec:authorize></li>
 
-					</ul></li>
-					<li><sec:authorize access="isAuthenticated()">
-					<a href="${pageContext.request.contextPath}/messages">Messages</a>
+
+				<!--  ROOMIE INFORMATION -->
+				<li><sec:authorize access="isAuthenticated()">
+						<a href="${pageContext.request.contextPath}/roomies">Roomies</a>
 					</sec:authorize></li>
-				<li class="username"><sec:authorize access="isAuthenticated()">
-						<sec:authentication var="principal" property="principal" />
-						<a href="<c:url value="/user/${principal.username}"/>">${principal.username}</a>
-					</sec:authorize></li>
+
+
+				<!--  LOGIN/REGISTER INFORMATION -->
+				<sec:authorize access="!isAuthenticated()">
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" href="#">Profile<span class="caret"></span></a>
+						<ul class="dropdown-menu">
+							<li><sec:authorize access="!isAuthenticated()">
+									<a class="login" data-toggle="collapse" href="#nav-collapse2">Login</a>
+								</sec:authorize></li>
+							<li><sec:authorize access="!isAuthenticated()">
+									<a class="login" href="<c:url value="/newaccount"/>">Register</a>
+								</sec:authorize></li>
+						</ul></li>
+				</sec:authorize>
+
+
+				<!--  USER INFORMATION -->
+				<sec:authorize access="isAuthenticated()">
+					<sec:authentication var="principal" property="principal" />
+					<li class="dropdown"><a class="dropdown-toggle"
+						data-toggle="dropdown" href="#">${principal.username}<span
+							class="caret"></span></a>
+
+						<ul class="dropdown-menu">
+							<li class="username"><sec:authorize
+									access="isAuthenticated()">
+									<sec:authentication var="principal" property="principal" />
+									<a href="<c:url value="/user/${principal.username}"/>">My
+										profile</a>
+								</sec:authorize></li>
+							<li><sec:authorize access="hasRole('ROLE_ADMIN')">
+									<a href="${pageContext.request.contextPath}/admin">Admin</a>
+								</sec:authorize></li>
+							<li><sec:authorize access="isAuthenticated()">
+									<a href="${pageContext.request.contextPath}/messages">Messages</a>
+								</sec:authorize></li>
+							<li><sec:authorize access="isAuthenticated()">
+									<c:url var="logoutUrl" value="/logout" />
+									<a href="${logoutUrl}">Log out</a>
+								</sec:authorize></li>
+
+						</ul></li>
+				</sec:authorize>
+
+
 				<li><a class="btn btn-default btn-outline btn-circle"
 					data-toggle="collapse" href="#nav-collapse3" aria-expanded="false"
 					aria-controls="nav-collapse3">Search</a></li>
@@ -68,19 +95,13 @@
 
 			<div class="collapse nav navbar-nav nav-collapse" id="nav-collapse3">
 				<form class="navbar-form navbar-right" method="get"
-					action="${pageContext.request.contextPath}/searchrent"
-					commandName="house" role="search">
+					action="${pageContext.request.contextPath}/searchroomie"
+					commandName="user" role="search">
 					<div class="form-group">
-						<input type="text" class="form-control" placeholder="Town, county, etc."
-							id="txt" name="searchAddress"> <input type="text"
-							class="form-control" placeholder="Min Rent" id="txt"
-							name="searchMinRent"> <input type="text"
-							class="form-control" placeholder="Max Rent" id="txt"
-							name="searchMaxRent"> <input type="text"
-							class="form-control" placeholder="Min Rooms" id="txt"
-							name="searchMinRooms"> <input type="text"
-							class="form-control" placeholder="Max Rooms" id="txt"
-							name="searchMaxRooms">
+
+
+						<input type="text" name="searchString" placeholder="Name of user"
+							class="form-control" />
 					</div>
 					<button type="submit" class="btn btn-danger">
 						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>

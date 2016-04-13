@@ -1,25 +1,91 @@
 package com.jamie.spring.web.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jamie.spring.web.dao.House;
+import com.jamie.spring.web.dao.User;
 import com.jamie.spring.web.service.HouseService;
+import com.jamie.spring.web.service.UsersService;
 
+/**
+ * 
+ * @author Jamie
+ *         <p>
+ *         This class is a controller for any tasks that take place on the home
+ *         page. These tasks include: displaying the home page, searching for an
+ *         address and an advanced search.
+ *         <p>
+ *         The @Controller annotation indicates that a particular class serves
+ *         the role of a controller. A controller generates an output view.
+ *         <p>
+ *         An instance of the HouseService class is declared and instantiated so
+ *         that data can be received from the DAO's. The @Autowired annotation
+ *         is used which marks a method as to be autowired by Spring's
+ *         dependency injection facilities. This method is autowired with a
+ *         matching bean in the Spring container.
+ *         <p>
+ * @RequestMapping is annotation for mapping web requests onto specific handler
+ *                 methods. These methods return a string which represents a
+ *                 view.
+ *                 <p>
+ *                 The showHome method's main responsibility is to display all
+ *                 the data on the home page. This method takes a model as a
+ *                 parameter which allows for adding attributes to the model.
+ *                 Two lists of all recent houses, called house and houses, are
+ *                 retrieved from the houseService and this list is then added
+ *                 to the model. The home page is then displayed.
+ *                 <p>
+ *                 The search method's main responsibility is to search for a
+ *                 particular address and display all the data relating to this
+ *                 address. This method takes a model as a parameter which
+ *                 allows for adding attributes to the model. It also takes the
+ *                 address that the user has entered as a parameter and uses the
+ *                 houseService to check if this house address exists. This
+ *                 attribute is then added to the model and the results are
+ *                 displayed on the search page.
+ *                 <p>
+ *                 The searchrent method's main responsibility is to advance
+ *                 search for potential addresses and display all the data
+ *                 relating to these addresses. This method takes a model as a
+ *                 parameter which allows for adding attributes to the model. It
+ *                 also takes the address, minimum rent, maximum rent, minimum
+ *                 number of rooms, and maximum number of rooms that the user
+ *                 has entered as parameters and uses the houseService to check
+ *                 if there are any results. These results are then added to the
+ *                 model and displayed on the search page. If any of the
+ *                 parameters passed are null then an error page is diplayed.
+ */
 @Controller
 public class HomeController {
 
 	private HouseService houseService;
+	private UsersService userService;
 
 	@Autowired
 	public void setHouseService(HouseService houseService) {
 
 		this.houseService = houseService;
+	}
+
+	@Autowired
+	public void setUserService(UsersService userService) {
+
+		this.userService = userService;
 	}
 
 	@RequestMapping("/")
@@ -36,7 +102,7 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/search")
-	public String Search(@RequestParam("searchString") String address , Model model) {
+	public String search(@RequestParam("searchString") String address, Model model) {
 
 		List<House> house = houseService.getHouseAddress(address);
 
@@ -45,20 +111,52 @@ public class HomeController {
 		return "search";
 	}
 
+	@RequestMapping(value = "/searchroomie")
+	public String searchRoomie(@RequestParam("searchString") String username, Model model) {
+
+		List<User> users = userService.getUserSearch(username);
+
+		model.addAttribute("users", users);
+
+		return "searchroomie";
+	}
+
 	@RequestMapping(value = "/searchrent")
-	public String Searchrent(@RequestParam("searchAddress") String address, @RequestParam("searchMinRent") Integer minrent, @RequestParam("searchMaxRent") Integer maxrent, @RequestParam("searchMinRooms") Integer minrooms, @RequestParam("searchMaxRooms") Integer maxrooms
-			, Model model) {
-		
-		if(minrent == null || maxrent == null || minrooms == null || maxrooms == null) {
+	public String searchrent(@RequestParam("searchAddress") String address,
+			@RequestParam("searchMinRent") Integer minrent, @RequestParam("searchMaxRent") Integer maxrent,
+			@RequestParam("searchMinRooms") Integer minrooms, @RequestParam("searchMaxRooms") Integer maxrooms,
+			Model model) {
+
+		if (minrent == null || maxrent == null || minrooms == null || maxrooms == null) {
 			return "searcherror";
-		}else {
+		} else {
 
-		List<House> house = houseService.getHouseSearch(address, minrent, maxrent, minrooms, maxrooms);
+			List<House> house = houseService.getHouseSearch(address, minrent, maxrent, minrooms, maxrooms);
 
-		model.addAttribute("house", house);
+			model.addAttribute("house", house);
 
-		return "search";
+			return "search";
 		}
 	}
 
+	@RequestMapping("/showupload")
+	public String showUpload(Model model) {
+
+		return "upload";
+	}
+
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String handleFormUpload(@RequestParam("file") MultipartFile file, Principal principal) throws IOException {
+		if (!file.isEmpty()) {
+			String username = principal.getName();
+			BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
+			File destination = new File(
+					"\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\profilepictures\\" + username
+							+ ".png");
+
+			ImageIO.write(src, "png", destination);
+
+		}
+		return "accountcreated";
+	}
 }

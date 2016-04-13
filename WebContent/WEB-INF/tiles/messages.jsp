@@ -9,14 +9,25 @@
 </script>
 
 <div class="container">
+
 	<div id="messages">
-		<a href="${pageContext.request.contextPath}/newmessage"
-			class="btn btn-primary btn-lg" id="newmessage">New message</a>
-		<h2>Conversations</h2>
-		<c:forEach var="foo" items="${foo}">
-			<div class="conversations">
-				<a href="<c:url value="/message/${foo}"/>">${foo}</a>
-			</div>
-		</c:forEach>
+	<h2>Conversations</h2>
+		<table class="table table-hover">
+			<thead class="thead-default">
+				<tr>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<c:forEach var="foo" items="${foo}">
+					<tr>
+						<td><img width="50px" height="50px"
+				src="${pageContext.request.contextPath}/static/images/profilepictures/<c:url value="${foo}"/>.png"><a href="<c:url value="/message/${foo}"/>">${foo}</a></td>
+					</tr>
+				</c:forEach>
+			</tbody>
+		</table>
 	</div>
+	<a href="${pageContext.request.contextPath}/newmessage"
+			class="btn btn-primary btn-lg" id="newmessage">New message</a>
 </div>

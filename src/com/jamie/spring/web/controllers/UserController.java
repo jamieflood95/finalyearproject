@@ -1,7 +1,13 @@
 package com.jamie.spring.web.controllers;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -12,6 +18,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.jamie.spring.web.dao.FormValidationGroup;
 import com.jamie.spring.web.dao.House;
@@ -23,7 +31,7 @@ import com.jamie.spring.web.service.RoomieService;
 import com.jamie.spring.web.service.UsersService;
 
 @Controller
-public class LoginController {
+public class UserController {
 
 	private UsersService usersService;
 	private HouseService houseService;
@@ -68,7 +76,7 @@ public class LoginController {
 	@RequestMapping(value = "/createaccount", method = RequestMethod.POST)
 	public String createAccount(
 			@Validated(FormValidationGroup.class) User user,
-			BindingResult result) {
+			BindingResult result, @RequestParam("file") MultipartFile file, Principal principal) throws IOException {
 		if (result.hasErrors()) {
 
 			return "newaccount";
@@ -81,8 +89,17 @@ public class LoginController {
 			result.rejectValue("username", "DuplicateKey.user.username");
 			return "newaccount";
 		}
+		
+		if (!file.isEmpty()) {
+			String username = user.getUsername();
+			BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
+			File destination = new File("\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\profilepictures\\" + username + ".png");
+			
+			ImageIO.write(src, "png", destination);
 
-		try {
+		}
+
+		try {			
 			usersService.create(user);
 		} catch (DuplicateKeyException e) {
 			result.rejectValue("username", "DuplicateKey.user.username");
@@ -109,7 +126,10 @@ public class LoginController {
 	@RequestMapping("/user/{username}")
 	public String showUser(@PathVariable String username, Model model,
 			Principal principal) {
+		System.out.println(username);
+		System.out.println(usersService.getUser(username).toString());
 		User user = usersService.getUser(username);
+		//System.out.println(user.toString());
 
 		model.addAttribute("user", user);
 
@@ -142,17 +162,26 @@ public class LoginController {
 		
 		Message message = new Message();
 
-		message.setRecipient(house.getUsername());
+		message.setRecipient(user.getUsername());
 
 		model.addAttribute("message", message);
 		
 		boolean hasHouse = false;
 
 		if (principal != null) {
-			hasHouse = houseService.hasHouse(principal.getName());
+			hasHouse = houseService.hasHouse(user.getUsername());
 		}
 
 		model.addAttribute("hasHouse", hasHouse);
+		
+		boolean hasImage = false;
+		
+		File f = new File("\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\profilepictures\\" + username + ".png");
+		if(f.exists() && !f.isDirectory()) { 
+		    hasImage = true;
+		}
+		
+		model.addAttribute("hasImage", hasImage);
 
 		return "user";
 

@@ -4,6 +4,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script src="${pageContext.request.contextPath}/static/script/jquery.1.10.2.min.js" /></script>
+<script src="${pageContext.request.contextPath}/static/script/jquery.autocomplete.min.js" /></script>
 <link rel="stylesheet"
 	href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
 <script
@@ -16,10 +18,8 @@
 <link rel="shortcut icon"
 	href="http://www.iconj.com/ico/s/x/sxdqwqjhwo.ico" type="image/x-icon" />
 <script type="text/javascript"
-	src="${pageContext.request.contextPath}/static/script/jquery.js"></script>
-<script type="text/javascript"
 	src="${pageContext.request.contextPath}/static/script/sorttable.js"></script>
-	
+
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <link href="${pageContext.request.contextPath}/static/css/main.css"
 	rel="stylesheet" type="text/css">
