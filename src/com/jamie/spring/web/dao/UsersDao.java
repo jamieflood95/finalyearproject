@@ -35,16 +35,16 @@ public class UsersDao {
 	}
 
 	public boolean exists(String username) {
-//		Criteria crit = session().createCriteria(User.class);
-//		crit.add(Restrictions.idEq(username));
-//		User user = (User) crit.uniqueResult();
+		Criteria crit = session().createCriteria(User.class);
+		crit.add(Restrictions.idEq(username));
+		User user = (User) crit.uniqueResult();
 		
-		String hql = "FROM User WHERE username=:username";
-		Query query = session().createQuery(hql);
-		query.setString("username",  username);
-		List<User> results = query.list();
-		
-		User user = results.get(0);
+//		String hql = "FROM User WHERE username=:username";
+//		Query query = session().createQuery(hql);
+//		query.setString("username",  username);
+//		List<User> results = query.list();
+//		
+//		User user = results.get(0);
 		
 		return user != null;
 	}

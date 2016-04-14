@@ -20,7 +20,7 @@ public class HouseService {
 		this.houseDAO = houseDAO;
 	}
 
-	public List<House> getCurrent() {
+	public List<House> getAllHouses() {
 		return houseDAO.getHouses();
 	}
 

@@ -132,7 +132,7 @@ ${principal.username }
 
 		<div id="house-summary-items">
 			<c:choose>
-				<c:when test="${hasImage}">
+				<c:when test="${hasHouseImage}">
 					<img width="500px" height="500px"
 						src="${pageContext.request.contextPath}/static/images/housepictures/<c:url value="${house.id}"/>.png">
 					<br>
@@ -141,9 +141,110 @@ ${principal.username }
 					<br>Rooms available: ${house.rooms} <br>
 					<br>Rent per
 				month: ${house.rent} <br>${house.description}
+				
+				<br> 
+				<br>Wifi
+				<c:choose>
+					<c:when test="${house.wifi}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Furnished 
+				<c:choose>
+					<c:when test="${house.furnished}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Parking
+				<c:choose>
+					<c:when test="${house.parking}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Central heating
+				 <c:choose>
+					<c:when test="${house.central_heating}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>House alarm
+				<c:choose>
+					<c:when test="${house.house_alarm}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>TV
+				<c:choose>
+					<c:when test="${house.television}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Washing machine
+				<c:choose>
+					<c:when test="${house.washing_machine}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Dryer
+				<c:choose>
+					<c:when test="${house.dryer}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Dishwasher
+				<c:choose>
+					<c:when test="${house.dishwasher}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Microwave
+				<c:choose>
+					<c:when test="${house.microwave}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose>  
+				<br>Garden
+				<c:choose>
+					<c:when test="${house.garden}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
 				</c:when>
 
-				<c:when test="${hasHouse}">
+				<c:when test="${hasHouse && !hasHouseImage}">
 					<img
 						src="https://maps.googleapis.com/maps/api/streetview?size=800x500&location=<c:url value="${house.lat}"/>,<c:url value="${house.lng}"/>">
 					<br> *Images taken from Google Street View may not be 100%
@@ -154,6 +255,107 @@ ${principal.username }
 					<br>Rooms available: ${house.rooms} <br>
 					<br>Rent per
 				month: ${house.rent} <br>${house.description}
+				
+				<br> 
+				<br>Wifi
+				<c:choose>
+					<c:when test="${house.wifi}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Furnished 
+				<c:choose>
+					<c:when test="${house.furnished}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Parking
+				<c:choose>
+					<c:when test="${house.parking}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Central heating
+				 <c:choose>
+					<c:when test="${house.central_heating}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>House alarm
+				<c:choose>
+					<c:when test="${house.house_alarm}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>TV
+				<c:choose>
+					<c:when test="${house.television}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Washing machine
+				<c:choose>
+					<c:when test="${house.washing_machine}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Dryer
+				<c:choose>
+					<c:when test="${house.dryer}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Dishwasher
+				<c:choose>
+					<c:when test="${house.dishwasher}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
+				<br>Microwave
+				<c:choose>
+					<c:when test="${house.microwave}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose>  
+				<br>Garden
+				<c:choose>
+					<c:when test="${house.garden}">
+						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+					</c:when>
+					<c:otherwise>
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+					</c:otherwise>
+				</c:choose> 
 				</c:when>
 				<c:otherwise>
 					<br>No house available</c:otherwise>

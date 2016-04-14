@@ -27,7 +27,7 @@ public class House {
 
 	@Column(name = "rooms")
 	private int rooms;
-	
+
 	@Lob
 	@Column(name = "description")
 	private String description;
@@ -37,32 +37,99 @@ public class House {
 
 	@Column(name = "lat")
 	private String lat;
-	
+
 	@Column(name = "username")
 	String username;
 
+	@Column(name = "wifi")
+	boolean wifi = false;
+	
+	@Column(name = "furnished")
+	boolean furnished = false;
+	
+	@Column(name = "parking")
+	boolean parking = false;
+	
+	@Column(name = "central_heating")
+	boolean central_heating = false;
+	
+	@Column(name = "house_alarm")
+	boolean house_alarm = false;
+	
+	@Column(name = "television")
+	boolean television = false;
+	
+	@Column(name = "washing_machine")
+	boolean washing_machine = false;
+	
+	@Column(name = "dryer")
+	boolean dryer = false;
+	
+	@Column(name = "dishwasher")
+	boolean dishwasher = false;
+	
+	@Column(name = "microwave")
+	boolean microwave = false;
+	
+	@Column(name = "garden")
+	boolean garden = false;
+	
+
 	public House() {
-		
+
 	}
 
-	public House(String address, int rooms, int rent, String description, String username) {
+	
+
+	public House(String address, int rent, int rooms, String description, String lng, String lat, String username,
+			boolean wifi, boolean furnished, boolean parking, boolean central_heating, boolean house_alarm,
+			boolean television, boolean washing_machine, boolean dryer, boolean dishwasher, boolean microwave,
+			boolean garden) {
 		this.address = address;
-		this.rooms = rooms;
 		this.rent = rent;
+		this.rooms = rooms;
 		this.description = description;
-		this.username = username;
-	}
-
-	public House(int id, String address, int rooms, int rent,
-			String lng, String lat, String description, String username) {
-		this.id = id;
-		this.address = address;
-		this.rooms = rooms;
-		this.rent = rent;
 		this.lng = lng;
 		this.lat = lat;
-		this.description = description;
 		this.username = username;
+		this.wifi = wifi;
+		this.furnished = furnished;
+		this.parking = parking;
+		this.central_heating = central_heating;
+		this.house_alarm = house_alarm;
+		this.television = television;
+		this.washing_machine = washing_machine;
+		this.dryer = dryer;
+		this.dishwasher = dishwasher;
+		this.microwave = microwave;
+		this.garden = garden;
+	}
+
+
+
+	public House(int id, String address, int rooms, int rent, String lng, String lat, String description,
+			String username, boolean wifi, boolean furnished, boolean parking, boolean central_heating, boolean house_alarm,
+			boolean television, boolean washing_machine, boolean dryer, boolean dishwasher, boolean microwave,
+			boolean garden) {
+		this.id = id;
+		this.address = address;
+		this.rent = rent;
+		this.rooms = rooms;
+		this.description = description;
+		this.lng = lng;
+		this.lat = lat;
+		this.username = username;
+		this.wifi = wifi;
+		this.furnished = furnished;
+		this.parking = parking;
+		this.central_heating = central_heating;
+		this.house_alarm = house_alarm;
+		this.television = television;
+		this.washing_machine = washing_machine;
+		this.dryer = dryer;
+		this.dishwasher = dishwasher;
+		this.microwave = microwave;
+		this.garden = garden;
 	}
 
 	public int getId() {
@@ -129,65 +196,105 @@ public class House {
 		this.username = username;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result
-				+ ((description == null) ? 0 : description.hashCode());
-		result = prime * result + id;
-		result = prime * result + ((lat == null) ? 0 : lat.hashCode());
-		result = prime * result + ((lng == null) ? 0 : lng.hashCode());
-		result = prime * result + rent;
-		result = prime * result + rooms;
-		return result;
+	public boolean isWifi() {
+		return wifi;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		House other = (House) obj;
-		if (address == null) {
-			if (other.address != null)
-				return false;
-		} else if (!address.equals(other.address))
-			return false;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (id != other.id)
-			return false;
-		if (lat == null) {
-			if (other.lat != null)
-				return false;
-		} else if (!lat.equals(other.lat))
-			return false;
-		if (lng == null) {
-			if (other.lng != null)
-				return false;
-		} else if (!lng.equals(other.lng))
-			return false;
-		if (rent != other.rent)
-			return false;
-		if (rooms != other.rooms)
-			return false;
-		return true;
+	public void setWifi(boolean wifi) {
+		this.wifi = wifi;
+	}
+
+	public boolean isFurnished() {
+		return furnished;
+	}
+
+	public void setFurnished(boolean furnished) {
+		this.furnished = furnished;
+	}
+
+	public boolean isParking() {
+		return parking;
+	}
+
+	public void setParking(boolean parking) {
+		this.parking = parking;
+	}
+
+	public boolean isCentral_heating() {
+		return central_heating;
+	}
+
+	public void setCentral_heating(boolean central_heating) {
+		this.central_heating = central_heating;
+	}
+
+	public boolean isHouse_alarm() {
+		return house_alarm;
+	}
+
+	public void setHouse_alarm(boolean house_alarm) {
+		this.house_alarm = house_alarm;
+	}
+
+	public boolean isTelevision() {
+		return television;
+	}
+
+	public void setTelevision(boolean television) {
+		this.television = television;
+	}
+
+	public boolean isWashing_machine() {
+		return washing_machine;
+	}
+
+	public void setWashing_machine(boolean washing_machine) {
+		this.washing_machine = washing_machine;
+	}
+
+	public boolean isDryer() {
+		return dryer;
+	}
+
+	public void setDryer(boolean dryer) {
+		this.dryer = dryer;
+	}
+
+	public boolean isDishwasher() {
+		return dishwasher;
+	}
+
+	public void setDishwasher(boolean dishwasher) {
+		this.dishwasher = dishwasher;
+	}
+
+	public boolean isMicrowave() {
+		return microwave;
+	}
+
+	public void setMicrowave(boolean microwave) {
+		this.microwave = microwave;
+	}
+
+	public boolean isGarden() {
+		return garden;
+	}
+
+	public void setGarden(boolean garden) {
+		this.garden = garden;
 	}
 
 	@Override
 	public String toString() {
-		return "House [id=" + id + ", address=" + address + ", rent=" + rent
-				+ ", rooms=" + rooms + ", description=" + description
-				+ ", lng=" + lng + ", lat=" + lat + "]";
+		return "House [id=" + id + ", address=" + address + ", rent=" + rent + ", rooms=" + rooms + ", description="
+				+ description + ", lng=" + lng + ", lat=" + lat + ", username=" + username + ", wifi=" + wifi
+				+ ", furnished=" + furnished + ", parking=" + parking + ", central_heating=" + central_heating
+				+ ", house_alarm=" + house_alarm + ", television=" + television + ", washing_machine=" + washing_machine
+				+ ", dryer=" + dryer + ", dishwasher=" + dishwasher + ", microwave=" + microwave + ", garden=" + garden
+				+ "]";
 	}
+
+	
 
 	
 }

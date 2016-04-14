@@ -28,10 +28,8 @@ import com.jamie.spring.web.dao.Comment;
 import com.jamie.spring.web.dao.FormValidationGroup;
 import com.jamie.spring.web.dao.House;
 import com.jamie.spring.web.dao.Message;
-import com.jamie.spring.web.dao.User;
 import com.jamie.spring.web.service.CommentService;
 import com.jamie.spring.web.service.HouseService;
-import com.jamie.spring.web.service.UsersService;
 
 /**
  * 
@@ -45,13 +43,14 @@ import com.jamie.spring.web.service.UsersService;
  *         The @Controller annotation indicates that a particular class serves
  *         the role of a controller. A controller generates an output view.
  *         <p>
- *         An instance of the HouseService class is declared and instantiated so
- *         that data can be received from the DAO's. The @Autowired annotation
- *         is used which marks a method as to be autowired by Spring's
- *         dependency injection facilities. This method is autowired with a
- *         matching bean in the Spring container.
+ *         An instance of the HouseService, CommentService and UserService
+ *         classes are declared and instantiated so that data can be received
+ *         from the DAO's. The @Autowired annotation is used which marks a
+ *         method as to be autowired by Spring's dependency injection
+ *         facilities. This method is autowired with a matching bean in the
+ *         Spring container.
  *         <p>
- * 		   @RequestMapping is annotation for mapping web requests onto specific handler
+ * @RequestMapping is annotation for mapping web requests onto specific handler
  *                 methods. These methods return a string which represents a
  *                 view.
  *                 <p>
@@ -73,6 +72,15 @@ import com.jamie.spring.web.service.UsersService;
  *                 takes the house id as a parameter and uses the houseService
  *                 to retrieve the house information. The result is then added
  *                 to the model and displayed on the house page.
+ *                 <p>
+ *                 The createComment method's main responsibility is to create a
+ *                 comment on a house's page. This method takes a model as a
+ *                 parameter which allows for adding attributes to the model. It
+ *                 also takes the house id as a parameter and uses the
+ *                 houseService to retrieve the house information. A comment is
+ *                 created based on the information the user has entered, the
+ *                 username, house id and date. The comment is then saved and
+ *                 the user is notified that the comment has been created.
  *                 <p>
  *                 The deleteHouse method's main responsibility is to delete a
  *                 particular house from the database. It takes the house id as
@@ -114,45 +122,49 @@ import com.jamie.spring.web.service.UsersService;
  *                 wishes to delete then the id of the house is retrieved from
  *                 the object and the houseService method for deletion is
  *                 called.
+ *                 <p>
+ *                 The showUpload method's main responsibility is to display the
+ *                 page so the user can upload a picture. It returns a string
+ *                 value which displays the upload jsp.
+ *                 <p>
+ *                 The handleFormUpload method's main responsibility is to
+ *                 handle the file that the user has uploaded from the form. The
+ *                 file is validated to make sure it isn't empty and then the
+ *                 path where it is to be stored is declared. The file is
+ *                 written to this location and the house page is displayed.
  */
 @Controller
 public class HouseController {
 
+	// declare and instantiate the service classes so that you can access the
+	// methods
 	private HouseService houseService;
+	private CommentService commentService;
 
 	@Autowired
 	public void setHouseService(HouseService houseService) {
 		this.houseService = houseService;
 	}
-	
-	private CommentService commentService;
 
 	@Autowired
 	public void setCommentService(CommentService commentService) {
 		this.commentService = commentService;
 	}
-	
-	private UsersService usersService;
-
-	@Autowired
-	public void setUserService(UsersService usersService) {
-		this.usersService = usersService;
-	}
-
 
 	@RequestMapping("/houses")
 	public String showHouses(Model model, Principal principal) throws IOException {
 
-		List<House> houses = houseService.getCurrent();
-
+		// get a list of all houses and add to the model
+		List<House> houses = houseService.getAllHouses();
 		model.addAttribute("houses", houses);
 
 		boolean hasHouse = false;
-
+		// check if the logged in user has a house
 		if (principal != null) {
 			hasHouse = houseService.hasHouse(principal.getName());
 		}
 
+		// add the boolean to the model
 		model.addAttribute("hasHouse", hasHouse);
 
 		return "houses";
@@ -160,68 +172,63 @@ public class HouseController {
 
 	@RequestMapping("/house/{id}")
 	public String showHouse(@PathVariable int id, Model model) {
+		// get an individual house based on its id
 		House house = houseService.getHouse(id);
-
 		model.addAttribute("house", house);
 
+		// create a new message so anyone can message
+		// the owner of the house
 		Message message = new Message();
-
 		message.setRecipient(house.getUsername());
-
 		model.addAttribute("message", message);
-		
+
 		boolean hasHouse = false;
-		
-		File f = new File("\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\housepictures\\" + house.getId() + ".png");
-		if(f.exists() && !f.isDirectory()) { 
-		    hasHouse = true;
+		// check if the owner has decided to upload an image for the house
+		File houseFile = new File("\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\housepictures\\"
+				+ house.getId() + ".png");
+		if (houseFile.isFile()) {
+			hasHouse = true;
 		}
-		
+
+		// if true then an image exists
 		model.addAttribute("hasHouse", hasHouse);
-		
+
+		// get all comments on this house page
 		List<Comment> comments = commentService.getComments(id);
-		
-//		for(int i=0; i<comments.size(); i++) {
-//			if(comments.get(i).getId()!=id) {
-//				comments.remove(i);
-//			}
-//		}
-		
 		model.addAttribute("comments", comments);
-		
+
+		// create a new comment so users can comment on
+		// the house
 		Comment comment = new Comment();
-		
-		model.addAttribute("comment",  comment);
+		model.addAttribute("comment", comment);
 
 		return "house";
 
 	}
-	
+
 	@RequestMapping(value = "/createcomment/{house_id}", method = RequestMethod.POST)
-	public String sendMessage(@Validated(FormValidationGroup.class) Comment comment, @PathVariable int house_id, Principal principal, Model model)
-			throws IOException {
+	public String createComment(@Validated(FormValidationGroup.class) Comment comment, @PathVariable int house_id,
+			Principal principal, Model model) throws IOException {
 
+		// get the logged in user
 		String username = principal.getName();
+		// set the user and house foreign keys for a comment
 		comment.getUser().setUsername(username);
-		
 		comment.getHouse().setId(house_id);
-
+		// set the date that the comment is posted
 		Date date = new Date();
 		comment.setDate(date);
-
+		// save the comment
 		commentService.saveOrUpdate(comment);
-			
-		return "accountcreated";
-		
+
+		return "commentsent";
 
 	}
 
 	@RequestMapping("/deletehouse/{id}")
 	public String deleteHouse(@PathVariable int id, Model model) {
+		// delete a house based on an id
 		houseService.delete(id);
-		
-		boolean houseDeleted = true;
-		model.addAttribute("houseDeleted",  houseDeleted);
 
 		return "housedeleted";
 
@@ -229,8 +236,8 @@ public class HouseController {
 
 	@RequestMapping("map")
 	public String showMap(Model model) throws IOException {
-		List<House> houses = houseService.getCurrent();
-
+		// get a list of all houses and add to the model
+		List<House> houses = houseService.getAllHouses();
 		model.addAttribute("houses", houses);
 
 		return "map";
@@ -241,16 +248,18 @@ public class HouseController {
 
 		House house = null;
 
+		// check if the user already has a house - then they
+		// can edit it
 		if (principal != null) {
 			String username = principal.getName();
-
 			house = houseService.getHouse(username);
 		}
 
+		// create a new house
 		if (house == null) {
 			house = new House();
 		}
-
+		// add the house object to the model
 		model.addAttribute("house", house);
 
 		return "createhouse";
@@ -263,52 +272,67 @@ public class HouseController {
 			return "createhouse";
 		}
 
+		// when the user doesn't want to delete the house
 		if (delete == null) {
 			try {
+				// set the username of the house
 				String username = principal.getName();
 				house.setUsername(username);
 
+				// get the address
 				String addressText = house.getAddress();
+				// format the string so the geocode data can be accessed from
+				// the google api
 				addressText = addressText.replace(".", "");
 				addressText = addressText.replace(" ", "+");
+				// scrape the data from the geo address
 				String geo = "https://maps.googleapis.com/maps/api/geocode/xml?address=" + addressText
 						+ "&region=irl&key=AIzaSyCQeiWnMEZkkcRi8HhhhgI3zOat2t6ztPw";
 				Document doc2 = Jsoup.connect(geo).get();
 				Elements elt = doc2.getElementsByTag("location");
-
+				// get the longitude and latitude details from the result and
+				// assign them to the house
 				String[] str_array = elt.get(0).text().split(" ");
 				house.setLat(str_array[0]);
 				house.setLng(str_array[1]);
 
+				// save the house
 				houseService.saveOrUpdate(house);
 
 				return "redirect:" + "house/" + house.getId();
 			} catch (Throwable t) {
+				// the house address cannot be found from google
 				System.out.println("Error saving house");
 				return "housenotfound";
 			}
 
 		} else {
+			// delete the house
 			houseService.delete(house.getId());
-			
+
 			return "housedeleted";
 		}
 	}
-	
-	@RequestMapping("/showhouseupload")
-	public String showUpload(Model model) {
 
+	@RequestMapping("/showhouseupload")
+	public String showUpload() {
+		// display the upload form
 		return "houseupload";
 	}
 
 	@RequestMapping(value = "/houseupload", method = RequestMethod.POST)
 	public String handleFormUpload(@RequestParam("file") MultipartFile file, Principal principal) throws IOException {
+		// get the house of the logged in user
 		String username = principal.getName();
 		House house = houseService.getHouse(username);
 		if (!file.isEmpty()) {
+			// read in the file
 			BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
-			File destination = new File("\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\housepictures\\" + house.getId() + ".png");
-			
+			// set the files destination
+			File destination = new File(
+					"\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\housepictures\\" + house.getId()
+							+ ".png");
+			// write the file to the destination
 			ImageIO.write(src, "png", destination);
 
 		}

@@ -53,7 +53,7 @@ public class UserController {
 
 		model.addAttribute("users", users);
 
-		List<House> houses = houseService.getCurrent();
+		List<House> houses = houseService.getAllHouses();
 
 		model.addAttribute("houses", houses);
 
@@ -74,9 +74,8 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/createaccount", method = RequestMethod.POST)
-	public String createAccount(
-			@Validated(FormValidationGroup.class) User user,
-			BindingResult result, @RequestParam("file") MultipartFile file, Principal principal) throws IOException {
+	public String createAccount(@Validated(FormValidationGroup.class) User user, BindingResult result,
+			@RequestParam("file") MultipartFile file, Principal principal) throws IOException {
 		if (result.hasErrors()) {
 
 			return "newaccount";
@@ -89,17 +88,19 @@ public class UserController {
 			result.rejectValue("username", "DuplicateKey.user.username");
 			return "newaccount";
 		}
-		
+
 		if (!file.isEmpty()) {
 			String username = user.getUsername();
 			BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
-			File destination = new File("\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\profilepictures\\" + username + ".png");
-			
+			File destination = new File(
+					"\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\profilepictures\\" + username
+							+ ".png");
+
 			ImageIO.write(src, "png", destination);
 
 		}
 
-		try {			
+		try {
 			usersService.create(user);
 		} catch (DuplicateKeyException e) {
 			result.rejectValue("username", "DuplicateKey.user.username");
@@ -124,12 +125,9 @@ public class UserController {
 	}
 
 	@RequestMapping("/user/{username}")
-	public String showUser(@PathVariable String username, Model model,
-			Principal principal) {
-		System.out.println(username);
-		System.out.println(usersService.getUser(username).toString());
+	public String showUser(@PathVariable String username, Model model, Principal principal) {
+
 		User user = usersService.getUser(username);
-		//System.out.println(user.toString());
 
 		model.addAttribute("user", user);
 
@@ -159,13 +157,13 @@ public class UserController {
 		isFriends = roomieService.exists(username, principal.getName());
 
 		model.addAttribute("isFriends", isFriends);
-		
+
 		Message message = new Message();
 
 		message.setRecipient(user.getUsername());
 
 		model.addAttribute("message", message);
-		
+
 		boolean hasHouse = false;
 
 		if (principal != null) {
@@ -173,15 +171,27 @@ public class UserController {
 		}
 
 		model.addAttribute("hasHouse", hasHouse);
-		
+
 		boolean hasImage = false;
-		
-		File f = new File("\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\profilepictures\\" + username + ".png");
-		if(f.exists() && !f.isDirectory()) { 
-		    hasImage = true;
+
+		File imageFile = new File("\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\profilepictures\\"
+				+ username + ".png");
+		if (imageFile.exists() && !imageFile.isDirectory()) {
+			hasImage = true;
 		}
-		
+
 		model.addAttribute("hasImage", hasImage);
+
+		boolean hasHouseImage = false;
+		
+		System.out.println(house.getId());
+
+		File houseFile = new File("\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\housepictures\\" + house.getId() + ".png");
+		if (houseFile.exists() && !houseFile.isDirectory()) {
+			hasHouseImage = true;
+		}
+
+		model.addAttribute("hasHouseImage", hasHouseImage);
 
 		return "user";
 

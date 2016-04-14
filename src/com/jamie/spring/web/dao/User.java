@@ -3,6 +3,7 @@ package com.jamie.spring.web.dao;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -65,8 +66,7 @@ public class User {
 	private boolean enabled = false;
 	private String authority;
 	
-	@ManyToOne(optional = false)
-	@JoinColumn(name = "id", referencedColumnName = "id")
+	@ManyToOne(targetEntity = House.class)
 	private House house;
 
 	public User() {
