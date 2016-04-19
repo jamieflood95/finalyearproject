@@ -70,8 +70,10 @@ import com.jamie.spring.web.service.HouseService;
  *                 particular house. This method takes a model as a parameter
  *                 which allows for adding attributes to the model. It also
  *                 takes the house id as a parameter and uses the houseService
- *                 to retrieve the house information. The result is then added
- *                 to the model and displayed on the house page.
+ *                 to retrieve the house information. Message and comment objects
+ *                 are instantiated and added to the model so a user can message
+ *                 the owner or post a comment. A list of all comments on that
+ *                 house is also retrieved from the database and displayed.
  *                 <p>
  *                 The createComment method's main responsibility is to create a
  *                 comment on a house's page. This method takes a model as a

@@ -13,6 +13,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -111,9 +112,13 @@ public class MessageController {
 	}
 
 	@RequestMapping(value = "/sendmessage", method = RequestMethod.POST)
-	public String sendMessage(@Validated(FormValidationGroup.class) Message message, Principal principal, Model model)
+	public String sendMessage(@Validated(FormValidationGroup.class) Message message, BindingResult result, Principal principal, Model model)
 			throws IOException {
 
+		if(result.hasErrors()) {
+			return "newmessage";
+		}
+		
 		// get the logged in user and assign this user to the message
 		String username = principal.getName();
 		message.getUser().setUsername(username);

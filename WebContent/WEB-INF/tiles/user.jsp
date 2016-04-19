@@ -7,12 +7,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<div class="container">
-<sec:authentication var="principal" property="principal" />
-${principal.username }
-			
-
-
+<div class="container">	
 	<c:set var="string2" value="${fn:toUpperCase(user.username)}" />
 	<h3>${string2}</h3>
 	<c:choose>

@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,18 +49,22 @@ public class ContactController {
 
 	@RequestMapping(value = "/newcontact")
 	public String newContact(Model model, Principal principal) {
-		Contact contact = new Contact();
 
-		model.addAttribute("contact", contact);
+		model.addAttribute("contact", new Contact());
 
 		return "newcontact";
 
 	}
 
 	@RequestMapping(value = "/createcontact", method = RequestMethod.POST)
-	public String createContact(@Validated(FormValidationGroup.class) Contact contact, Principal principal, Model model)
+	public String createContact(@Validated(FormValidationGroup.class) Contact contact, BindingResult result, Principal principal, Model model)
 			throws IOException {
 
+		if (result.hasErrors()) {
+
+			return "newcontact";
+		}
+		
 		String username = principal.getName();
 		contact.getUser().setUsername(username);
 

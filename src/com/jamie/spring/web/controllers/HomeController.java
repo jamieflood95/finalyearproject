@@ -59,6 +59,15 @@ import com.jamie.spring.web.service.UsersService;
  *                 attribute is then added to the model and the results are
  *                 displayed on the search page.
  *                 <p>
+ *                 The searchRoomie method's main responsibility is to search
+ *                 for a particular user and display all the data relating to
+ *                 this user. This method takes a model as a parameter which
+ *                 allows for adding attributes to the model. It also takes the
+ *                 username that the user has entered as a parameter and uses
+ *                 the houseService to check if this user exists. This attribute
+ *                 is then added to the model and the results are displayed on
+ *                 the search page.
+ *                 <p>
  *                 The searchrent method's main responsibility is to advance
  *                 search for potential addresses and display all the data
  *                 relating to these addresses. This method takes a model as a
@@ -69,10 +78,23 @@ import com.jamie.spring.web.service.UsersService;
  *                 if there are any results. These results are then added to the
  *                 model and displayed on the search page. If any of the
  *                 parameters passed are null then an error page is diplayed.
+ *                 <p>
+ *                 <p>
+ *                 The showUpload method's main responsibility is to display the
+ *                 page so the user can upload a picture. It returns a string
+ *                 value which displays the upload jsp.
+ *                 <p>
+ *                 The handleFormUpload method's main responsibility is to
+ *                 handle the file that the user has uploaded from the form. The
+ *                 file is validated to make sure it isn't empty and then the
+ *                 path where it is to be stored is declared. The file is
+ *                 written to this location and the house page is displayed.
  */
 @Controller
 public class HomeController {
 
+	// declare and instantiate the service classes so that you can access the
+	// methods
 	private HouseService houseService;
 	private UsersService userService;
 
@@ -90,12 +112,11 @@ public class HomeController {
 
 	@RequestMapping("/")
 	public String showHome(Model model) {
+		// get two lists of the most recent houses and add them to the model
 		List<House> house = houseService.getRecent();
-
 		model.addAttribute("house", house);
 
 		List<House> houses = houseService.getRecent();
-
 		model.addAttribute("houses", houses);
 
 		return "home";
@@ -103,9 +124,9 @@ public class HomeController {
 
 	@RequestMapping(value = "/search")
 	public String search(@RequestParam("searchString") String address, Model model) {
-
+		// search for the address that the user has entered and return the
+		// results
 		List<House> house = houseService.getHouseAddress(address);
-
 		model.addAttribute("house", house);
 
 		return "search";
@@ -113,9 +134,9 @@ public class HomeController {
 
 	@RequestMapping(value = "/searchroomie")
 	public String searchRoomie(@RequestParam("searchString") String username, Model model) {
-
+		// search for the user that the user has entered and return the
+		// results
 		List<User> users = userService.getUserSearch(username);
-
 		model.addAttribute("users", users);
 
 		return "searchroomie";
@@ -126,13 +147,12 @@ public class HomeController {
 			@RequestParam("searchMinRent") Integer minrent, @RequestParam("searchMaxRent") Integer maxrent,
 			@RequestParam("searchMinRooms") Integer minrooms, @RequestParam("searchMaxRooms") Integer maxrooms,
 			Model model) {
-
+		// rent or room variables cannot be null
 		if (minrent == null || maxrent == null || minrooms == null || maxrooms == null) {
 			return "searcherror";
 		} else {
-
+			// return the results of the advanced house search in a list
 			List<House> house = houseService.getHouseSearch(address, minrent, maxrent, minrooms, maxrooms);
-
 			model.addAttribute("house", house);
 
 			return "search";
@@ -141,7 +161,7 @@ public class HomeController {
 
 	@RequestMapping("/showupload")
 	public String showUpload(Model model) {
-
+		// display the upload form
 		return "upload";
 	}
 
@@ -149,11 +169,13 @@ public class HomeController {
 	public String handleFormUpload(@RequestParam("file") MultipartFile file, Principal principal) throws IOException {
 		if (!file.isEmpty()) {
 			String username = principal.getName();
+			// read in the file
 			BufferedImage src = ImageIO.read(new ByteArrayInputStream(file.getBytes()));
+			// set the files destination
 			File destination = new File(
 					"\\C:\\Users\\Jamie\\workspace\\FYP\\WebContent\\resources\\images\\profilepictures\\" + username
 							+ ".png");
-
+			// write the file to the destination
 			ImageIO.write(src, "png", destination);
 
 		}

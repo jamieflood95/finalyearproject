@@ -212,8 +212,8 @@
 		<put-attribute name="content" value="/WEB-INF/tiles/searchroomie.jsp"></put-attribute>
 	</definition>
 	
-	<definition name="example" extends="users.base">
-		<put-attribute name="title" value="Search results"></put-attribute>
-		<put-attribute name="content" value="/WEB-INF/tiles/example.jsp"></put-attribute>
+	<definition name="commentsent" extends="users.base">
+		<put-attribute name="title" value="Comment posted"></put-attribute>
+		<put-attribute name="content" value="/WEB-INF/tiles/commentsent.jsp"></put-attribute>
 	</definition>
 </tiles-definitions>

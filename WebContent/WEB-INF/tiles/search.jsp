@@ -3,14 +3,14 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <div class="container">
-	<table class="table table-hover">
-		<thead class="thead-default">
+	<table class="sortable">
+		<thead>
 			<tr>
 				<th></th>
 				<th>Address</th>
 				<th>Rooms</th>
 				<th>Rent</th>
-				<th></th>
+				<th>Owner</th>
 			</tr>
 		</thead>
 		<tbody>

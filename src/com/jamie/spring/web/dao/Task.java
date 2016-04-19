@@ -10,6 +10,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "task")
@@ -20,9 +23,15 @@ public class Task {
 	@Column(name = "id")
 	private int id;
 
+	@NotBlank(groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
+	@Size(min = 7, max = 60, groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
 	@Column(name = "name")
 	private String name;
 
+	@NotBlank(groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
 	@Lob
 	@Column(name = "details")
 	private String details;

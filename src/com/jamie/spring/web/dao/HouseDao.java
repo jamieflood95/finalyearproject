@@ -75,10 +75,6 @@ public class HouseDao {
 	public House getHouse(int id) {
 
 		Criteria crit = session().createCriteria(House.class);
-
-		//crit.createAlias("user", "u");
-
-		//crit.add(Restrictions.eq("u.enabled", true));
 		crit.add(Restrictions.idEq(id));
 
 		return (House) crit.uniqueResult();

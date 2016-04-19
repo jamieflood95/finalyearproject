@@ -38,14 +38,7 @@ public class UsersDao {
 		Criteria crit = session().createCriteria(User.class);
 		crit.add(Restrictions.idEq(username));
 		User user = (User) crit.uniqueResult();
-		
-//		String hql = "FROM User WHERE username=:username";
-//		Query query = session().createQuery(hql);
-//		query.setString("username",  username);
-//		List<User> results = query.list();
-//		
-//		User user = results.get(0);
-		
+
 		return user != null;
 	}
 
@@ -56,32 +49,28 @@ public class UsersDao {
 
 	public User getUser(String username) {
 
-//		Criteria crit = session().createCriteria(User.class);
-//
-//		crit.add(Restrictions.idEq("username", username));
-		
 		String hql = "FROM User WHERE username=:username";
 		Query query = session().createQuery(hql);
-		query.setString("username",  username);
+		query.setString("username", username);
 		List<User> results = query.list();
-		
+
 		return results.get(0);
 	}
-	
+
 	public boolean delete(String username) {
 		Query q = session().createQuery("delete from Message where username=:username");
 		q.setString("username", username);
 		q.executeUpdate();
-		
+
 		Query q2 = session().createQuery("delete from Roomie where username=:username");
 		q2.setString("username", username);
 		q2.executeUpdate();
-		
+
 		Query query = session().createQuery("delete from User where username=:username");
 		query.setString("username", username);
 		return query.executeUpdate() == 1;
 	}
-	
+
 	public List<User> getUserSearch(String name) {
 		Criteria crit = session().createCriteria(User.class);
 

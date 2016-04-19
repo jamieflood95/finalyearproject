@@ -7,6 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "contact")
@@ -17,15 +21,29 @@ public class Contact {
 	@Column(name = "id")
 	private int id;
 
+	@NotBlank(groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
+	@Size(min = 8, max = 60, groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
 	@Column(name = "name")
 	private String name;
 
+	@NotBlank(groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
+	@Size(min = 2, max = 60, groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
 	@Column(name = "role")
 	private String role;
 
+	@NotBlank(groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
+	@Size(min = 5, max = 20, groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
 	@Column(name = "phone")
 	private String phone;
 
+	@Email(groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
 	@Column(name = "email")
 	private String email;
 

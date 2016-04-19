@@ -62,10 +62,35 @@ import com.jamie.spring.web.service.TaskService;
  *                 username as a parameter and uses the roomieService to delete
  *                 the roomie entity from the database. The home page is then
  *                 displayed.
+ *                 <p>
+ *                 The showRoomies method's main responsibility is to display
+ *                 all information relevant to a user and their roomies. This
+ *                 method takes a model as a parameter which allows for adding
+ *                 attributes to the model. A Principal variable is also used to
+ *                 check if the user is logged in. Principal represents an
+ *                 entity. A list of all roomies for this user called roomies is
+ *                 retrieved from the roomieService and this list is then added
+ *                 to the model. A list of all tasks for this user called tasks
+ *                 is also retrieved from the tasksService and this list is then
+ *                 added to the model. A list of all contacts for this user
+ *                 called contacts is retrieved from the contactsService and
+ *                 this list is then added to the model.The roomies page is then
+ *                 displayed.
+ *                 <p>
+ *                 The showAllRoomies method's main responsibility is to display
+ *                 all of a users roomies. This method takes a model as a
+ *                 parameter which allows for adding attributes to the model. A
+ *                 Principal variable is also used to check if the user is
+ *                 logged in. Principal represents an entity. A list of all
+ *                 roomies for this user called roomies is retrieved from the
+ *                 roomieService and this list is then added to the model. The
+ *                 myroomies page is then displayed.
  */
 @Controller
 public class RoomieController {
 
+	// declare and instantiate the service classes so that you can access the
+	// methods
 	private RoomieService roomieService;
 	private MessageService messageService;
 	private HouseService houseService;
@@ -101,36 +126,40 @@ public class RoomieController {
 	public String addRoomie(Principal principal, @Validated(value = FormValidationGroup.class) Roomie roomie)
 			throws IOException {
 
+		// create a new message object
 		Message message = new Message();
-
+		// get the house of the logged in user
 		String currentUsername = principal.getName();
-
 		House house = houseService.getHouse(currentUsername);
 
 		if (currentUsername.equals(roomie.getRoomie_username())) {
+			// can't add yourself as a roomie
 			return "cannotadd";
 		} else {
+			// set the user of a roomie
 			roomie.getUser().setUsername(currentUsername);
 
 			if (roomieService.exists(roomie.getRoomie_username(), currentUsername)) {
-
+				// if already roomies
 				return "cannotadd";
 			} else {
+				// make sure there is a room available
 				if (house.getRooms() > 0) {
-
+					// send a message to the roomie to notify them that a user
+					// has added them
 					message.setRecipient(roomie.getRoomie_username());
 					message.setText(currentUsername
 							+ " has sent a request to be your roomie. Please go onto his page to connect with him.");
 					message.getUser().setUsername(currentUsername);
-
 					DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
 					Date send_date = new Date();
 					message.setSend_date(send_date);
-
 					messageService.saveOrUpdate(message);
 
+					// save the record of the roomie
 					roomieService.saveOrUpdate(roomie);
 
+					// reduce the amount of rooms in the house
 					house.setRooms(house.getRooms() - 1);
 					houseService.update(house);
 
@@ -151,13 +180,13 @@ public class RoomieController {
 		House house = houseService.getHouse(currentUsername);
 
 		roomieService.delete(currentUsername, username);
-		
+
 		house.setRooms(house.getRooms() + 1);
-		
+
 		houseService.saveOrUpdate(house);
 
 		model.addAttribute("roomie", new Roomie());
-		
+
 		return "home";
 
 	}
@@ -167,21 +196,16 @@ public class RoomieController {
 		String username = principal.getName();
 
 		List<Roomie> roomies = roomieService.getRoomies(username);
-
 		model.addAttribute("roomies", roomies);
 
 		boolean isFriends = false;
-
 		isFriends = roomieService.exists(username, principal.getName());
-
 		model.addAttribute("isFriends", isFriends);
 
 		List<Task> tasks = taskService.getTasks(username);
-
 		model.addAttribute("tasks", tasks);
 
 		List<Contact> contacts = contactService.getContacts(username);
-
 		model.addAttribute("contacts", contacts);
 
 		return "roomies";
@@ -191,9 +215,7 @@ public class RoomieController {
 	@RequestMapping("/roomies/all")
 	public String showAllRoomies(Model model, Principal principal) {
 		String username = principal.getName();
-
 		List<Roomie> roomies = roomieService.getRoomies(username);
-
 		model.addAttribute("roomies", roomies);
 
 		return "myroomies";

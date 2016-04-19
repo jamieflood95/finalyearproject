@@ -236,7 +236,7 @@
 						</div>
 						<div class="container">
 							<p class="user-info">
-								<a href="<c:url value="/house/${houses.id}"/>">${comments.username}</a>,
+								<a href="<c:url value="/user/${comments.username}"/>">${comments.username}</a>,
 								${comments.date}
 							</p>
 							<p class="comment-body comment-text">${comments.text}</p>

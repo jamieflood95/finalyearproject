@@ -1,11 +1,8 @@
 package com.jamie.spring.web.dao;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
@@ -21,8 +18,6 @@ public class User {
 	@NotBlank(groups = { PersistenceValidationGroup.class,
 			FormValidationGroup.class })
 	@Size(min = 8, max = 15, groups = { PersistenceValidationGroup.class,
-			FormValidationGroup.class })
-	@Pattern(regexp = "^\\w{8,}$", groups = { PersistenceValidationGroup.class,
 			FormValidationGroup.class })
 	@Id
 	@Column(name = "username")

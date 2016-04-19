@@ -9,6 +9,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 @Entity
 @Table(name = "message")
@@ -28,6 +31,8 @@ public class Message {
 	@Column(name = "recipient")
 	private String recipient;
 
+	@NotBlank(groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
 	@Column(name = "text")
 	private String text;
 	

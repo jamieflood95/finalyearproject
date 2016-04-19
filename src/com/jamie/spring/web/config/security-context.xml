@@ -25,15 +25,15 @@
 		<security:csrf disabled="true" />
 		<security:intercept-url pattern="/admin" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/" access="permitAll" />
-		<security:intercept-url pattern="/addRoomie" access="permitAll" />	
-		<security:intercept-url pattern="/example" access="permitAll" />	
+		<security:intercept-url pattern="/addRoomie" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/contactcreated" access="isAuthenticated()" />
 		<security:intercept-url pattern="/noroomsavailable" access="isAuthenticated()" />		
 		<security:intercept-url pattern="/newcontact" access="isAuthenticated()" />		
 		<security:intercept-url pattern="/createcontact" access="isAuthenticated()" />
 		<security:intercept-url pattern="/createcomment/*" access="isAuthenticated()" />
-		<security:intercept-url pattern="/deleteRoomie/*" access="permitAll" />	
-		<security:intercept-url pattern="/roomieadded" access="permitAll" />
+		<security:intercept-url pattern="/commentsent" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/deleteRoomie/*" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/roomieadded" access="isAuthenticated()" />
 		<security:intercept-url pattern="/showhouseupload" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/houseupload" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/showupload" access="isAuthenticated()" />	
@@ -54,13 +54,13 @@
 		<security:intercept-url pattern="/roomies/all" access="isAuthenticated()" />
 		<security:intercept-url pattern="/search" access="permitAll" />	
 		<security:intercept-url pattern="/searchrent" access="permitAll" />	
-		<security:intercept-url pattern="/searchroomie" access="isAuthenticated()" />
+		<security:intercept-url pattern="/searchroomie" access="permitAll()" />
 		<security:intercept-url pattern="/searcherror" access="permitAll" />	
 		<security:intercept-url pattern="/user/*" access="permitAll" />	
 		<security:intercept-url pattern="/message/*" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/house/*" access="permitAll" />
-		<security:intercept-url pattern="/deletehouse/*" access="permitAll" />	
-		<security:intercept-url pattern="/deleteuser/*" access="permitAll" />	
+		<security:intercept-url pattern="/deletehouse/*" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/deleteuser/*" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/denied" access="permitAll" />	
 		<security:intercept-url pattern="/createhouse" access="isAuthenticated()" />
 		<security:intercept-url pattern="/docreate" access="isAuthenticated()" />

@@ -12,7 +12,7 @@
 				<th>Address</th>
 				<th>Rooms</th>
 				<th>Rent</th>
-				<th></th>
+				<th>Owner</th>
 			</tr>
 		</thead>
 		<tbody>

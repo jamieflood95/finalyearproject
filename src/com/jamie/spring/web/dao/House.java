@@ -10,6 +10,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
 
+import org.hibernate.validator.constraints.NotBlank;
+
 @Entity
 @Table(name = "house")
 public class House {
@@ -28,6 +30,8 @@ public class House {
 	@Column(name = "rooms")
 	private int rooms;
 
+	@NotBlank(groups = { PersistenceValidationGroup.class,
+			FormValidationGroup.class })
 	@Lob
 	@Column(name = "description")
 	private String description;
