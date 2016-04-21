@@ -43,8 +43,10 @@ public class HouseDaoTests {
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 
-		jdbc.execute("delete from house");
+		jdbc.execute("delete from task");
+		jdbc.execute("delete from message");
 		jdbc.execute("delete from users");
+		jdbc.execute("delete from house");
 	}
 
 	// test 1
