@@ -1,12 +1,13 @@
 package com.jamie.spring.web.test.tests;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.sql.DataSource;
 
@@ -21,6 +22,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.jamie.spring.web.dao.House;
 import com.jamie.spring.web.dao.HouseDao;
+import com.jamie.spring.web.dao.Roomie;
+import com.jamie.spring.web.dao.RoomieDao;
 import com.jamie.spring.web.dao.User;
 import com.jamie.spring.web.dao.UsersDao;
 
@@ -29,7 +32,10 @@ import com.jamie.spring.web.dao.UsersDao;
 		"classpath:com/jamie/spring/web/config/security-context.xml",
 		"classpath:com/jamie/spring/web/test/config/datasource.xml" })
 @RunWith(SpringJUnit4ClassRunner.class)
-public class UserDaoTests {
+public class RoomieDaoTests {
+
+	@Autowired
+	private RoomieDao roomieDao;
 
 	@Autowired
 	private HouseDao houseDao;
@@ -39,6 +45,7 @@ public class UserDaoTests {
 
 	@Autowired
 	private DataSource dataSource;
+
 	private House house1 = new House("35 Heathfield, Kinnegad, Westmeath", 1500, 4, "Description", "lat", "lng",
 			"jamieflood", false, false, false, false, false, false, false, false, false, false, false);
 	private House house2 = new House("31 Cabra Park, Phibsborough, Dublin", 450, 1, "Description", "lat", "lng",
@@ -48,6 +55,8 @@ public class UserDaoTests {
 			true, "ROLE_USER", house1);
 	private User user2 = new User("simonduffy", "Simon Duffy", "password", "simon@gmail.com", "", "", "", "", "", "",
 			true, "ROLE_USER", house2);
+
+	Roomie roomie1 = new Roomie();
 
 	@Before
 	public void init() {
@@ -62,81 +71,72 @@ public class UserDaoTests {
 		jdbc.execute("delete from house");
 	}
 
-	// test 9
+	// test 29
 	@Test
-	public void testCreateUser() throws IOException {
-		houseDao.saveOrUpdate(house1);
-		usersDao.create(user1);
-
-		User getUser = usersDao.getUser(user1.getUsername());
-		assertNotNull("User with ID " + user1.getUsername() + " should not be null", getUser.getUsername());
-
-	}
-
-	// test 10
-	@Test
-	public void testUserExists() throws IOException {
-		houseDao.saveOrUpdate(house1);
-		usersDao.create(user1);
-
-		assertTrue(usersDao.exists(user1.getUsername()));
-	}
-
-	// test 11
-	@Test
-	public void testUserList() throws IOException {
-		houseDao.saveOrUpdate(house1);
+	public void testSaveRoomie() throws IOException {
 		houseDao.saveOrUpdate(house2);
-		usersDao.create(user1);
 		usersDao.create(user2);
 
-		List<User> users = usersDao.getAllUsers();
-		assertEquals("Should be two users.", 2, users.size());
+		roomie1.setUser(user2);
+		roomie1.setRoomie_username("myusername");
+
+		roomieDao.saveOrUpdate(roomie1);
+
+		Roomie getRoomie = roomieDao.getRoomies(roomie1.getUser().getUsername()).get(0);
+		assertSame(roomie1.getId(), getRoomie.getId());
 	}
 
-	// test 12
+	// test 30
 	@Test
-	public void testGetUser() throws IOException {
-		houseDao.saveOrUpdate(house1);
+	public void testGetRoomiesByUsername() throws IOException {
 		houseDao.saveOrUpdate(house2);
-		usersDao.create(user1);
 		usersDao.create(user2);
 
-		User retrievedUser = usersDao.getUser(user2.getUsername());
-		assertEquals(user2.getUsername(), retrievedUser.getUsername());
+		roomie1.setUser(user2);
+		roomie1.setRoomie_username("myusername");
+
+		roomieDao.saveOrUpdate(roomie1);
+
+		Roomie retrievedRoomie = roomieDao.getRoomies(roomie1.getUser().getUsername()).get(0);
+		assertEquals(roomie1.getId(), retrievedRoomie.getId());
 	}
 
-	// test 13
+	// test 31
 	@Test
-	public void testDeleteUserByUsername() throws IOException {
-		houseDao.saveOrUpdate(house1);
-		usersDao.create(user1);
+	public void testRoomieExists() throws IOException {
+		houseDao.saveOrUpdate(house2);
+		usersDao.create(user2);
 
-		User getUser = usersDao.getUser(user1.getUsername());
-		assertNotNull(user1.getUsername(), getUser.getUsername());
+		roomie1.setUser(user2);
+		roomie1.setRoomie_username("myusername");
 
-		usersDao.delete(user1.getUsername());
+		roomieDao.saveOrUpdate(roomie1);
+
+		assertTrue(roomieDao.exists(roomie1.getRoomie_username(), roomie1.getUser().getUsername()));
+		assertFalse(roomieDao.exists(roomie1.getUser().getUsername(), roomie1.getRoomie_username()));
+	}
+
+	// test 32
+	@Test
+	public void testDeleteRoomie() throws IOException {
+		houseDao.saveOrUpdate(house2);
+		usersDao.create(user2);
+
+		roomie1.setUser(user2);
+		roomie1.setRoomie_username("myusername");
+
+		roomieDao.saveOrUpdate(roomie1);
+
+		Roomie getRoomie = roomieDao.getRoomies(roomie1.getUser().getUsername()).get(0);
+		assertNotNull(user1.getUsername(), getRoomie.getUser().getUsername());
+
+		roomieDao.delete(roomie1.getUser().getUsername(), roomie1.getRoomie_username());
 
 		try {
-			User getUser2 = usersDao.getUser(user1.getUsername());
-			assertNull(user1.getUsername(), getUser2.getUsername());
+			Roomie getRoomie2 = roomieDao.getRoomies(roomie1.getUser().getUsername()).get(0);
+			assertNull(user1.getUsername(), getRoomie2.getUser().getUsername());
 		} catch (IndexOutOfBoundsException e) {
 
-		}
-	}
-
-	// test 14
-	@Test
-	public void testGetUserSearch() throws IOException {
-		houseDao.saveOrUpdate(house1);
-		houseDao.saveOrUpdate(house2);
-		usersDao.create(user1);
-		usersDao.create(user2);
-
-		List<User> users = usersDao.getUserSearch(user1.getName());
-
-		for (int i = 0; i < users.size(); i++) {
-			assertEquals(users.get(i).getName(), user1.getName());
 		}
 	}
 }

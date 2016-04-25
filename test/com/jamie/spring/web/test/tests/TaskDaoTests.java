@@ -19,7 +19,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.jamie.spring.web.dao.House;
 import com.jamie.spring.web.dao.HouseDao;
-import com.jamie.spring.web.dao.Message;
 import com.jamie.spring.web.dao.Task;
 import com.jamie.spring.web.dao.TaskDao;
 import com.jamie.spring.web.dao.User;
@@ -60,6 +59,9 @@ public class TaskDaoTests {
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 
+		jdbc.execute("delete from roomie");
+		jdbc.execute("delete from comment");
+		jdbc.execute("delete from contact");
 		jdbc.execute("delete from task");
 		jdbc.execute("delete from message");
 		jdbc.execute("delete from users");

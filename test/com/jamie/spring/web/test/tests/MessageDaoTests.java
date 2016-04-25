@@ -60,6 +60,9 @@ public class MessageDaoTests {
 	public void init() {
 		JdbcTemplate jdbc = new JdbcTemplate(dataSource);
 
+		jdbc.execute("delete from roomie");
+		jdbc.execute("delete from comment");
+		jdbc.execute("delete from contact");
 		jdbc.execute("delete from task");
 		jdbc.execute("delete from message");
 		jdbc.execute("delete from users");
