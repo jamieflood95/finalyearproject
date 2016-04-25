@@ -31,75 +31,31 @@
 
 			<sec:authorize access="isAuthenticated()">
 				<div style="background-color: #2F72FF !important;" class="jumbotron">
-					<!--  <h2>Search for accommodation</h2>
-					<p>
-					<form method="get"
-						action="${pageContext.request.contextPath}/search"
-						commandName="house" role="search">
-						<select class="form-control" id="txt" name="searchString">
-							<option value="antrim">Antrim</option>
-							<option value="armagh">Armagh</option>
-							<option value="carlow">Carlow</option>
-							<option value="cavan">Cavan</option>
-							<option value="clare">Clare</option>
-							<option value="cork">Cork</option>
-							<option value="derry">Derry</option>
-							<option value="donegal">Donegal</option>
-							<option value="down">Down</option>
-							<option value="dublin">Dublin</option>
-							<option value="fermanagh">Fermanagh</option>
-							<option value="galway">Galway</option>
-							<option value="kerry">Kerry</option>
-							<option value="kildare">Kildare</option>
-							<option value="kilkenny">Kilkenny</option>
-							<option value="laois">Laois</option>
-							<option value="leitrim">Leitrim</option>
-							<option value="limerick">Limerick</option>
-							<option value="longford">Longford</option>
-							<option value="louth">Louth</option>
-							<option value="mayo">Mayo</option>
-							<option value="meath">Meath</option>
-							<option value="monaghan">Monaghan</option>
-							<option value="offaly">Offaly</option>
-							<option value="roscommon">Roscommon</option>
-							<option value="sligo">Sligo</option>
-							<option value="tipperary">Tipperary</option>
-							<option value="tyrone">Tyrone</option>
-							<option value="waterford">Waterford</option>
-							<option value="westmeath">Westmeath</option>
-							<option value="wexford">Wexford</option>
-							<option value="wicklow">Wicklow</option>
-						</select>
-						<button type="submit" class="btn btn-danger">
-							<span class="glyphicon glyphicon-search"></span>
-						</button>
-					</form>
-						-->
-					<h2>Search for a house</h2>
+					<div class="home-text"><h2>Search for a house</h2></div>
 					<form method="get"
 						action="${pageContext.request.contextPath}/searchrent"
 						commandName="house" role="search">
 						<div class="form-group">
 							<table>
 								<tr>
-									<td><input type="text" class="form-control"
+									<td class="bottom-padding"><input type="text" class="form-control"
 										placeholder="Town, county, etc." id="txt" name="searchAddress"></td>
 								</tr>
 								<tr>
-									<td><input type="text" class="form-control"
+									<td class="bottom-padding"><input type="text" class="form-control"
 										placeholder="Min Rent" id="txt" name="searchMinRent">
 									</td>
 								</tr>
 								<tr>
-									<td><input type="text" class="form-control"
+									<td class="bottom-padding"><input type="text" class="form-control"
 										placeholder="Max Rent" id="txt" name="searchMaxRent"></td>
 								</tr>
 								<tr>
-									<td><input type="text" class="form-control"
+									<td class="bottom-padding"><input type="text" class="form-control"
 										placeholder="Min Rooms" id="txt" name="searchMinRooms"></td>
 								</tr>
 								<tr>
-									<td><input type="text" class="form-control"
+									<td class="bottom-padding"><input type="text" class="form-control"
 										placeholder="Max Rooms" id="txt" name="searchMaxRooms"></td>
 								</tr>
 								<tr>

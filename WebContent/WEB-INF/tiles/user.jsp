@@ -7,7 +7,7 @@
 	uri="http://www.springframework.org/security/tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 
-<div class="container">	
+<div class="container">
 	<c:set var="string2" value="${fn:toUpperCase(user.username)}" />
 	<h3>${string2}</h3>
 	<c:choose>
@@ -45,10 +45,123 @@
 		<div class="house-object-header">
 			<h1>About Me</h1>
 		</div>
-		<b>Name</b> ${user.name} <br> <b>Date of birth:</b> ${user.dob} <br>
-		<b>Work:</b> ${user.work} <br> <b>College:</b> ${user.college} <br>
-		<b>Hobbies:</b> ${user.hobbies} <br> <b>Relationship status:</b>
+
+		<sec:authentication var="principal" property="principal" />
+		<c:choose>
+			<c:when test="${principal.username==user.username}">
+				<sf:form method="post"
+					action="${pageContext.request.contextPath}/editaccount"
+					commandName="user">
+					<table>
+						<tr>
+							<td class="label"></td>
+							<td><sf:input type="hidden" name="user.username" path="username"
+									value="${user.username}" />
+								<div class="error">
+									<sf:errors path="username"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td class="label"></td>
+							<td><sf:input type="hidden" name="user.email" path="email"
+									value="${user.email}" />
+								<div class="error">
+									<sf:errors path="email"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td class="label"></td>
+							<td><sf:input type="hidden" name="user.password" path="password"
+									value="${user.password}" />
+								<div class="error">
+									<sf:errors path="password"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td class="label"></td>
+							<td>Name<sf:input class="form-control" path="name"
+									name="name" type="text" /><br />
+								<div class="error">
+									<sf:errors path="name"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td class="label"></td>
+							<td><sf:input type="hidden" name="user.authority" path="authority"
+									value="${user.authority}" />
+								<div class="error">
+									<sf:errors path="authority"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td class="label"></td>
+							<td>Date of birth<sf:input class="form-control" path="dob"
+									name="dob" type="date" /><br />
+								<div class="error">
+									<sf:errors path="dob"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td class="label"></td>
+							<td>Phone number<sf:input class="form-control"
+									maxlength="10" path="phone" name="phone" type="text" /><br />
+								<div class="error">
+									<sf:errors path="phone"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td class="label"></td>
+							<td>Work<sf:input class="form-control" path="work"
+									name="work" type="text" /><br />
+								<div class="error">
+									<sf:errors path="work"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td class="label"></td>
+							<td>College<sf:input class="form-control" path="college"
+									name="college" type="text" /><br />
+								<div class="error">
+									<sf:errors path="college"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td class="label"></td>
+							<td>Relationship status<sf:select class="form-control"
+									path="relationship" name="relationship">
+									<option>Single</option>
+									<option>In a relationship</option>
+								</sf:select><br />
+								<div class="error">
+									<sf:errors path="relationship"></sf:errors>
+								</div></td>
+						</tr>
+
+						<tr>
+							<td class="label"></td>
+							<td>Hobbies<sf:textarea rows="8" class="form-control"
+									path="hobbies" name="hobbies" type="text" /><br />
+								<div class="error">
+									<sf:errors path="hobbies"></sf:errors>
+								</div></td>
+						</tr>
+						<tr>
+							<td><input class="btn btn-default" class="form-control"
+								value="Edit Account" type="submit" /></td>
+						</tr>
+					</table>
+				</sf:form>
+			</c:when>
+			<c:otherwise>
+				<b>Name</b> ${user.name} <br>
+				<b>Date of birth:</b> ${user.dob} <br>
+				<b>Work:</b> ${user.work} <br>
+				<b>College:</b> ${user.college} <br>
+				<b>Hobbies:</b> ${user.hobbies} <br>
+				<b>Relationship status:</b>
 		${user.relationship} <br>
+			</c:otherwise>
+		</c:choose>
 
 	</div>
 
@@ -137,106 +250,106 @@
 					<br>Rent per
 				month: ${house.rent} <br>${house.description}
 				
-				<br> 
-				<br>Wifi
+				<br>
+					<br>Wifi
 				<c:choose>
-					<c:when test="${house.wifi}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Furnished 
+						<c:when test="${house.wifi}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Furnished 
 				<c:choose>
-					<c:when test="${house.furnished}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Parking
+						<c:when test="${house.furnished}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Parking
 				<c:choose>
-					<c:when test="${house.parking}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Central heating
+						<c:when test="${house.parking}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Central heating
 				 <c:choose>
-					<c:when test="${house.central_heating}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>House alarm
+						<c:when test="${house.central_heating}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>House alarm
 				<c:choose>
-					<c:when test="${house.house_alarm}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>TV
+						<c:when test="${house.house_alarm}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>TV
 				<c:choose>
-					<c:when test="${house.television}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Washing machine
+						<c:when test="${house.television}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Washing machine
 				<c:choose>
-					<c:when test="${house.washing_machine}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Dryer
+						<c:when test="${house.washing_machine}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Dryer
 				<c:choose>
-					<c:when test="${house.dryer}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Dishwasher
+						<c:when test="${house.dryer}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Dishwasher
 				<c:choose>
-					<c:when test="${house.dishwasher}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Microwave
+						<c:when test="${house.dishwasher}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Microwave
 				<c:choose>
-					<c:when test="${house.microwave}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose>  
-				<br>Garden
+						<c:when test="${house.microwave}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Garden
 				<c:choose>
-					<c:when test="${house.garden}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
+						<c:when test="${house.garden}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
 				</c:when>
 
 				<c:when test="${hasHouse && !hasHouseImage}">
@@ -251,106 +364,106 @@
 					<br>Rent per
 				month: ${house.rent} <br>${house.description}
 				
-				<br> 
-				<br>Wifi
+				<br>
+					<br>Wifi
 				<c:choose>
-					<c:when test="${house.wifi}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Furnished 
+						<c:when test="${house.wifi}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Furnished 
 				<c:choose>
-					<c:when test="${house.furnished}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Parking
+						<c:when test="${house.furnished}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Parking
 				<c:choose>
-					<c:when test="${house.parking}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Central heating
+						<c:when test="${house.parking}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Central heating
 				 <c:choose>
-					<c:when test="${house.central_heating}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>House alarm
+						<c:when test="${house.central_heating}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>House alarm
 				<c:choose>
-					<c:when test="${house.house_alarm}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>TV
+						<c:when test="${house.house_alarm}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>TV
 				<c:choose>
-					<c:when test="${house.television}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Washing machine
+						<c:when test="${house.television}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Washing machine
 				<c:choose>
-					<c:when test="${house.washing_machine}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Dryer
+						<c:when test="${house.washing_machine}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Dryer
 				<c:choose>
-					<c:when test="${house.dryer}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Dishwasher
+						<c:when test="${house.dryer}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Dishwasher
 				<c:choose>
-					<c:when test="${house.dishwasher}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
-				<br>Microwave
+						<c:when test="${house.dishwasher}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Microwave
 				<c:choose>
-					<c:when test="${house.microwave}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose>  
-				<br>Garden
+						<c:when test="${house.microwave}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
+					<br>Garden
 				<c:choose>
-					<c:when test="${house.garden}">
-						<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-					</c:when>
-					<c:otherwise>
-						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-					</c:otherwise>
-				</c:choose> 
+						<c:when test="${house.garden}">
+							<span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+						</c:when>
+						<c:otherwise>
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</c:otherwise>
+					</c:choose>
 				</c:when>
 				<c:otherwise>
 					<br>No house available</c:otherwise>
