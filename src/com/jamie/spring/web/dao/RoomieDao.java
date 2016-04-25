@@ -13,6 +13,18 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 
+ * @author Jamie
+ *         <p>
+ *         The @Repository annotation indicates that the class has access to the
+ *         database. The @Repository annotation is a specialization of
+ *         the @Component annotation with similar use and functionality.
+ *         <p>
+ *         The SessionFactory interface serves as factory for TopLink Sessions,
+ *         allowing for dependency injection on thread-safe TopLink-based DAOs
+ *
+ */
 @Repository
 @Transactional
 @Component("roomieDao")
@@ -25,11 +37,23 @@ public class RoomieDao {
 		return sessionFactory.getCurrentSession();
 	}
 
+	/**
+	 * Saves a roomie in the database
+	 * 
+	 * @param roomie
+	 * @throws IOException
+	 */
 	public void saveOrUpdate(Roomie roomie) throws IOException {
 
 		session().saveOrUpdate(roomie);
 	}
 
+	/**
+	 * Gets a list of roomies for a specific user from the database
+	 * 
+	 * @param username
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Roomie> getRoomies(String username) {
 		Criteria crit = session().createCriteria(Roomie.class);
@@ -39,6 +63,14 @@ public class RoomieDao {
 		return crit.list();
 	}
 
+	/**
+	 * Checks if a row with the given roomie_username and username exists in the
+	 * database
+	 * 
+	 * @param roomie_username
+	 * @param username
+	 * @return
+	 */
 	public Boolean exists(String roomie_username, String username) {
 		Query query = session()
 				.createQuery("select 1 from Roomie where roomie_username = :roomie_username and username = :username");
@@ -47,8 +79,16 @@ public class RoomieDao {
 		return (query.uniqueResult() != null);
 	}
 
+	/**
+	 * Deletes a roomie from the database
+	 * 
+	 * @param username
+	 * @param roomie_username
+	 * @return
+	 */
 	public boolean delete(String username, String roomie_username) {
-		Query query = session().createQuery("delete from Roomie where roomie_username=:roomie_username and username=:username");
+		Query query = session()
+				.createQuery("delete from Roomie where roomie_username=:roomie_username and username=:username");
 		query.setString("username", username);
 		query.setString("roomie_username", roomie_username);
 		return query.executeUpdate() == 1;
