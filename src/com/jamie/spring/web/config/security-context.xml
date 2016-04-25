@@ -58,6 +58,7 @@
 		<security:intercept-url pattern="/searcherror" access="permitAll" />	
 		<security:intercept-url pattern="/user/*" access="permitAll" />	
 		<security:intercept-url pattern="/message/*" access="isAuthenticated()" />	
+		<security:intercept-url pattern="/editaccount" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/house/*" access="permitAll" />
 		<security:intercept-url pattern="/deletehouse/*" access="isAuthenticated()" />	
 		<security:intercept-url pattern="/deleteuser/*" access="isAuthenticated()" />	
